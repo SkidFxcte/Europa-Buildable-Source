@@ -1,0 +1,7 @@
+{
+  "kill_tacular": {
+    "category": "player",
+    "subtitle": "kill_tacular",
+    "sounds": [{ "name": "europa:kill_tacular.ogg", "stream": false }]
+  }
+}
