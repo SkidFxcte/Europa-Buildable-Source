@@ -11,11 +11,13 @@ import com.europa.api.manager.misc.ChatManager;
 import com.europa.api.manager.misc.ConfigManager;
 import com.europa.api.manager.module.ModuleManager;
 import com.europa.api.utilities.math.TPSUtils;
+import com.europa.api.utilities.misc.IconUtils;
 import com.europa.api.utilities.sound.SoundRegisterListener;
 import com.europa.client.gui.click.ClickGuiScreen;
 import com.europa.client.gui.font.FontManager;
 import com.europa.client.gui.hud.HudEditorScreen;
 import com.europa.client.gui.special.EuropaMainMenu;
+import com.europa.client.minecraft.Minecraft;
 import com.europa.client.modules.client.notifications.NotificationProcessor;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -24,6 +26,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
+import net.minecraft.util.Util;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -33,10 +36,10 @@ import org.lwjgl.opengl.Display;
 
 @Mod(modid="europa", name="Europa", version="1.1.5")
 public class Europa {
-    public static String NAME;
-    public static String VERSION;
-    public static String MODID;
-    public static Logger LOGGER;
+    public static String MODID = "europa";
+    public static String VERSION = "1.1.5";
+    public static String NAME = "Europa";
+    public static Logger LOGGER = LogManager.getLogger((String)"Europa");
     @Mod.Instance(value="europa")
     public static Europa INSTANCE;
     public static NotificationProcessor NOTIFICATION_PROCESSOR;
@@ -88,61 +91,23 @@ public class Europa {
         return MODULE_MANAGER;
     }
 
-    /*
-     * Exception decompiling
-     */
+
     public void setWindowIcon() {
-        /*
-         * This method has failed to decompile.  When submitting a bug report, please provide this stack trace, and (if you hold appropriate legal rights) the relevant class file.
-         * 
-         * org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [20[TRYBLOCK]], but top level block is 49[CATCHBLOCK]
-         *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op04StructuredStatement.processEndingBlocks(Op04StructuredStatement.java:435)
-         *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op04StructuredStatement.buildNestedBlocks(Op04StructuredStatement.java:484)
-         *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op03SimpleStatement.createInitialStructuredBlock(Op03SimpleStatement.java:736)
-         *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysisInner(CodeAnalyser.java:845)
-         *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysisOrWrapFail(CodeAnalyser.java:278)
-         *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysis(CodeAnalyser.java:201)
-         *     at org.benf.cfr.reader.entities.attributes.AttributeCode.analyse(AttributeCode.java:94)
-         *     at org.benf.cfr.reader.entities.Method.analyse(Method.java:531)
-         *     at org.benf.cfr.reader.entities.ClassFile.analyseMid(ClassFile.java:1042)
-         *     at org.benf.cfr.reader.entities.ClassFile.analyseTop(ClassFile.java:929)
-         *     at org.benf.cfr.reader.Driver.doJarVersionTypes(Driver.java:257)
-         *     at org.benf.cfr.reader.Driver.doJar(Driver.java:139)
-         *     at org.benf.cfr.reader.CfrDriverImpl.analyse(CfrDriverImpl.java:73)
-         *     at org.benf.cfr.reader.Main.main(Main.java:49)
-         */
-        throw new IllegalStateException("Decompilation failed");
+        //Why am I skidding Zori's setWindowIcon? I don't even know.
+        if (Util.getOSType() != Util.EnumOS.OSX) {
+            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/europa/img16.png");
+                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/europa/img32.png")) {
+                ByteBuffer[] icons = new ByteBuffer[]{IconUtils.INSTANCE.readImageToBuffer(inputStream16x), IconUtils.INSTANCE.readImageToBuffer(inputStream32x)};
+                Display.setIcon(icons);
+            } catch (Exception e) {
+                Europa.LOGGER.error("Couldn't set Windows Icon", e);
+            }
+        }
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public ByteBuffer readImageToBuffer(final InputStream inputStream) throws IOException {
-        final BufferedImage bufferedimage = ImageIO.read(inputStream);
-        final int[] aint = bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), null, 0, bufferedimage.getWidth());
-        final ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
-        final IntStream map = Arrays.stream(aint).map(Europa::lambda$readImageToBuffer$0);
-        final ByteBuffer byteBuffer = bytebuffer;
-        byteBuffer.getClass();
-        map.forEach(byteBuffer::putInt);
-        bytebuffer.flip();
-        return bytebuffer;
-    }
 
     public void setEuropaIcon() {
         this.setWindowIcon();
-    }
-
-    public static int lambda$readImageToBuffer$0(final int i) {
-        return i << 8 | (i >> 24 & 0xFF);
-    }
-
-
-    static {
-        MODID = "europa";
-        VERSION = "1.1.5";
-        NAME = "Europa";
-        LOGGER = LogManager.getLogger((String)"Europa");
     }
 }
 
