@@ -1,3 +1,7 @@
+//
+// Decompiled by Procyon v0.5.36
+//
+
 package com.europa.api.manager.module;
 
 import com.europa.api.manager.event.impl.render.EventRender2D;
@@ -11,7 +15,9 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import com.europa.api.manager.event.impl.player.EventMotionUpdate;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
+import java.util.Iterator;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.lang.reflect.Field;
 import com.europa.api.manager.value.Value;
 import java.util.function.Function;
@@ -102,8 +108,6 @@ import com.europa.client.modules.combat.ModuleSurroundBreaker;
 import com.europa.client.modules.render.ModuleKillEffects;
 import net.minecraftforge.common.MinecraftForge;
 import java.util.ArrayList;
-import java.util.function.Predicate;
-
 import net.minecraft.client.Minecraft;
 
 public class ModuleManager
@@ -112,7 +116,7 @@ public class ModuleManager
     public ArrayList<Module> modules;
 
     public ModuleManager() {
-        MinecraftForge.EVENT_BUS.register((ModuleManager)this);
+        MinecraftForge.EVENT_BUS.register((Object)this);
         this.modules = new ArrayList<Module>();
         this.addModule(new ModuleKillEffects());
         this.addModule(new ModuleSurroundBreaker());
@@ -229,12 +233,8 @@ public class ModuleManager
         return this.modules;
     }
 
-    public ArrayList<Module> getModules(final ModuleCategory category) {
-        return (ArrayList<Module>) this.modules;
-    }
-
-    private static boolean lambda$getModules$0(Module module) {
-        return false;
+    public ArrayList<Module> getModules(ModuleCategory category) {
+        return (ArrayList)this.modules.stream().filter(arg_0 -> ModuleManager.lambdagetModules0((ModuleCategory)category, arg_0)).collect(Collectors.toList());
     }
 
     public Module getModule(final String name) {
@@ -349,10 +349,9 @@ public class ModuleManager
         return m.getName().equals(name);
     }
 
-    public static boolean lambda$getModules$0(final ModuleCategory category, final Module m) {
-        return m.getCategory().equals(category);
+    public static boolean lambdagetModules0(final ModuleCategory category, final Module module) {
+        return module.getCategory().equals(category);
     }
-
 
     static {
         ModuleManager.mc = Minecraft.getMinecraft();
