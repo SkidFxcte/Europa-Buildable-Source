@@ -11,9 +11,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import com.europa.api.manager.event.impl.player.EventMotionUpdate;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import java.util.Iterator;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+
 import java.lang.reflect.Field;
 import com.europa.api.manager.value.Value;
 import java.util.function.Function;
@@ -28,9 +26,7 @@ import com.europa.client.modules.client.ModuleHud;
 import com.europa.client.modules.client.ModuleNotifications;
 import com.europa.client.modules.client.ModuleMiddleClick;
 import com.europa.client.modules.remove.ModuleViewModel;
-import com.europa.client.modules.render.ModuleTracer;
 import com.europa.client.modules.render.ModuleShulkerViewer;
-import com.europa.client.modules.render.ModuleLogoutSpots;
 import com.europa.client.modules.remove.ModuleBlockOutline;
 import com.europa.client.modules.render.ModuleNametags;
 import com.europa.client.modules.render.ModuleSkeleton;
@@ -189,9 +185,7 @@ public class ModuleManager
         this.addModule(new ModuleSkeleton());
         this.addModule(new ModuleNametags());
         this.addModule(new ModuleBlockOutline());
-        this.addModule(new ModuleLogoutSpots());
         this.addModule(new ModuleShulkerViewer());
-        this.addModule(new ModuleTracer());
         this.addModule(new ModuleViewModel());
         this.addModule(new ModuleMiddleClick());
         this.addModule(new ModuleNotifications());
@@ -288,7 +282,7 @@ public class ModuleManager
 
     @SubscribeEvent
     public void onRender3D(final RenderWorldLastEvent event) {
-        ModuleManager.mc.mcProfiler.startSection("europa");
+        ModuleManager.mc.profiler.startSection("europa");
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
@@ -310,7 +304,7 @@ public class ModuleManager
         GlStateManager.enableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.enableDepth();
-        ModuleManager.mc.mcProfiler.endSection();
+        ModuleManager.mc.profiler.endSection();
     }
 
     private static void lambda$onRender3D$3(Module module) {

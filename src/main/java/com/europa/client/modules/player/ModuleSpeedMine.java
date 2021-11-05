@@ -19,6 +19,8 @@ import com.europa.api.utilities.math.TimerUtils;
 import com.europa.api.utilities.render.RenderUtils;
 import com.europa.api.utilities.world.BlockUtils;
 import com.europa.api.utilities.world.HoleUtils;
+import com.europa.client.minecraft.Block;
+import com.europa.client.minecraft.PlayerControllerMP;
 import com.europa.client.modules.player.ModulePacketMine;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -75,22 +77,31 @@ extends Module {
     }
 
     @Override
-    public void onRender3D(EventRender3D eventRender3D) {
-        block1: {
-            if (this.currentPosition == null) break block1;
+    public void onRender3D(final EventRender3D event) {
+        if (this.currentPosition != null) {
             AxisAlignedBB bb = RenderUtils.fixBB(new AxisAlignedBB(this.currentPosition));
-            double growAmt = this.normalize((float)(System.currentTimeMillis() - this.starTime) / Float.intBitsToFloat(Float.floatToIntBits(0.08986692f) ^ 0x7F700C26), Double.longBitsToDouble(Double.doubleToLongBits(7.007928029000862E307) ^ 0x7FD8F2F51150C7E9L), this.getBreakSpeed(this.currentPosition));
-            double grow = MathHelper.clamp((double)growAmt, (double)Double.longBitsToDouble(Double.doubleToLongBits(1.1826870463364938E308) ^ 0x7FE50D727D931E57L), (double)Double.longBitsToDouble(Double.doubleToLongBits(2.975911616094987) ^ 0x7FE7CEAABFD750D9L));
-            if (renderMode.getValue().equals((Object)renderModes.Grow)) {
+            final double growAmt = this.normalize((System.currentTimeMillis() - this.starTime) / Float.intBitsToFloat(Float.floatToIntBits(0.08986692f) ^ 0x7F700C26), Double.longBitsToDouble(Double.doubleToLongBits(7.007928029000862E307) ^ 0x7FD8F2F51150C7E9L), this.getBreakSpeed(this.currentPosition));
+            final double grow = MathHelper.clamp(growAmt, Double.longBitsToDouble(Double.doubleToLongBits(1.1826870463364938E308) ^ 0x7FE50D727D931E57L), Double.longBitsToDouble(Double.doubleToLongBits(2.975911616094987) ^ 0x7FE7CEAABFD750D9L));
+            if (ModuleSpeedMine.renderMode.getValue().equals(renderModes.Grow)) {
                 bb = bb.shrink(Double.longBitsToDouble(Double.doubleToLongBits(77.43114307965799) ^ 0x7FB35B97D924C1C7L));
                 bb = bb.grow(grow);
             }
-            float sGreen = MathHelper.clamp((float)((float)growAmt), (float)Float.intBitsToFloat(Float.floatToIntBits(5.297968E35f) ^ 0x7ACC11FF), (float)Float.intBitsToFloat(Float.floatToIntBits(7.8681602f) ^ 0x7F7BC7F8));
-            Color color = statusMode.getValue().equals((Object)ModulePacketMine.statusModes.Static) ? new Color(this.timer.hasReached(this.calculateTime(this.currentPosition)) ? 0 : 255, this.timer.hasReached(this.calculateTime(this.currentPosition)) ? 255 : 0, 0, this.color.getValue().getAlpha()) : (sColor = new Color(255 - (int)(sGreen * Float.intBitsToFloat(Float.floatToIntBits(0.009426891f) ^ 0x7F65733F)), (int)(sGreen * Float.intBitsToFloat(Float.floatToIntBits(0.012214023f) ^ 0x7F371D53)), 0, this.color.getValue().getAlpha()));
-            RenderUtils.drawFilledBox(bb, statusColor.getValue() ? sColor.getRGB() : this.color.getValue().getRGB());
-            RenderUtils.drawBlockOutline(bb, statusColor.getValue() ? sColor : this.color.getValue(), Float.intBitsToFloat(Float.floatToIntBits(36.652126f) ^ 0x7D929BC7));
+            final float sGreen = MathHelper.clamp((float)growAmt, Float.intBitsToFloat(Float.floatToIntBits(5.297968E35f) ^ 0x7ACC11FF), Float.intBitsToFloat(Float.floatToIntBits(7.8681602f) ^ 0x7F7BC7F8));
+            Color color;
+            if (ModuleSpeedMine.statusMode.getValue().equals(ModulePacketMine.statusModes.Static)) {
+                Color color2 = null;
+                color = color2;
+                color2 = new Color(this.timer.hasReached(this.calculateTime(this.currentPosition)) ? 0 : 255, this.timer.hasReached(this.calculateTime(this.currentPosition)) ? 255 : 0, 0, this.color.getValue().getAlpha());
+            }
+            else {
+                color = new Color(255 - (int)(sGreen * Float.intBitsToFloat(Float.floatToIntBits(0.009426891f) ^ 0x7F65733F)), (int)(sGreen * Float.intBitsToFloat(Float.floatToIntBits(0.012214023f) ^ 0x7F371D53)), 0, this.color.getValue().getAlpha());
+            }
+            final Color sColor = color;
+            RenderUtils.drawFilledBox(bb, ModuleSpeedMine.statusColor.getValue() ? sColor.getRGB() : this.color.getValue().getRGB());
+            RenderUtils.drawBlockOutline(bb, ModuleSpeedMine.statusColor.getValue() ? sColor : this.color.getValue(), Float.intBitsToFloat(Float.floatToIntBits(36.652126f) ^ 0x7D929BC7));
         }
     }
+
 
     @Override
     public void onUpdate() {
@@ -109,9 +120,9 @@ extends Module {
                         if (HoleUtils.isInHole(this.target)) {
                             BlockPos cityPos = this.getCity(this.target);
                             if (ModuleSpeedMine.mc.world.getBlockState(cityPos).getBlock() != Blocks.AIR) {
-                                if (!this.hitted && cityPos != null && ModuleSpeedMine.mc.world.getBlockState((BlockPos)cityPos).getBlock().blockHardness != Float.intBitsToFloat(Float.floatToIntBits(-7.198885f) ^ 0x7F665D44)) {
+                                if (!this.hitted && cityPos != null && Block.blockHardness != Float.intBitsToFloat(Float.floatToIntBits(-7.198885f) ^ 0x7F665D44)) {
                                     this.timer.reset();
-                                    ModuleSpeedMine.mc.playerController.isHittingBlock = false;
+                                    PlayerControllerMP.isHittingBlock = false;
                                     ModuleSpeedMine.mc.player.swingArm(EnumHand.MAIN_HAND);
                                     this.currentPosition = cityPos;
                                     this.oldcity = cityPos;
@@ -133,8 +144,8 @@ extends Module {
                     if (ModuleSpeedMine.mc.world.getBlockState(this.currentPosition).getBlock() == Blocks.AIR) break block21;
                     if (!(ModuleSpeedMine.mc.player.getDistanceSq(this.currentPosition) > (double)MathUtils.square(resetRange.getValue().floatValue()))) break block22;
                 }
-                ModuleSpeedMine.mc.playerController.isHittingBlock = false;
-                ModuleSpeedMine.mc.playerController.curBlockDamageMP = Float.intBitsToFloat(Float.floatToIntBits(2.6906754E38f) ^ 0x7F4A6C86);
+                PlayerControllerMP.isHittingBlock = false;
+                PlayerControllerMP.curBlockDamageMP = Float.intBitsToFloat(Float.floatToIntBits(2.6906754E38f) ^ 0x7F4A6C86);
                 this.currentPosition = null;
                 this.currentFacing = null;
                 return;
@@ -165,17 +176,17 @@ extends Module {
         if (ModuleSpeedMine.mc.player == null || ModuleSpeedMine.mc.world == null) {
             return;
         }
-        if (ModuleSpeedMine.mc.world.getBlockState((BlockPos)eventBlock.getPos()).getBlock().blockHardness == Float.intBitsToFloat(Float.floatToIntBits(-19.81507f) ^ 0x7E1E8543)) {
+        if (Block.blockHardness == Float.intBitsToFloat(Float.floatToIntBits(-19.81507f) ^ 0x7E1E8543)) {
             return;
         }
         this.timer.reset();
-        ModuleSpeedMine.mc.playerController.isHittingBlock = false;
+        PlayerControllerMP.isHittingBlock = false;
         ModuleSpeedMine.mc.player.swingArm(EnumHand.MAIN_HAND);
         if (eventBlock.getPos() != this.currentPosition) {
             if (this.currentPosition != null && switchBlock.getValue()) {
                 ModuleSpeedMine.mc.player.connection.sendPacket((Packet)new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, this.currentPosition, this.currentFacing));
-                ModuleSpeedMine.mc.playerController.isHittingBlock = false;
-                ModuleSpeedMine.mc.playerController.curBlockDamageMP = Float.intBitsToFloat(Float.floatToIntBits(3.2516966E38f) ^ 0x7F74A166);
+                PlayerControllerMP.isHittingBlock = false;
+                PlayerControllerMP.curBlockDamageMP = Float.intBitsToFloat(Float.floatToIntBits(3.2516966E38f) ^ 0x7F74A166);
             }
         }
         this.currentPosition = eventBlock.getPos();
@@ -188,8 +199,8 @@ extends Module {
 
     @SubscribeEvent
     public void onClickBlock(EventClickBlock eventClickBlock) {
-        if (ModuleSpeedMine.mc.playerController.curBlockDamageMP > Float.intBitsToFloat(Float.floatToIntBits(343.17242f) ^ 0x7E675ADF)) {
-            ModuleSpeedMine.mc.playerController.isHittingBlock = true;
+        if (PlayerControllerMP.curBlockDamageMP > Float.intBitsToFloat(Float.floatToIntBits(343.17242f) ^ 0x7E675ADF)) {
+            PlayerControllerMP.isHittingBlock = true;
         }
     }
 

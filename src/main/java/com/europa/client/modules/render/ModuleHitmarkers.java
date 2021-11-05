@@ -42,12 +42,8 @@ extends Module {
         }
     }
 
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
-    public void onAttack(AttackEntityEvent attackEntityEvent) {
-        void event;
+    public void onAttack(final AttackEntityEvent event) {
         if (!event.getEntity().equals((Object)ModuleHitmarkers.mc.player)) {
             return;
         }
@@ -64,17 +60,13 @@ extends Module {
         }
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public void renderMark(int n, int n2) {
-        void y;
-        void x;
-        mc.getTextureManager().bindTexture(this.hitmarkerResource);
+    public void renderMark(final int x, final int y) {
+        ModuleHitmarkers.mc.getTextureManager().bindTexture(this.hitmarkerResource);
         GL11.glPushMatrix();
-        GL11.glColor4f((float)((float)this.color.getRed() / Float.intBitsToFloat(Float.floatToIntBits(0.14868592f) ^ 0x7D67411F)), (float)((float)this.color.getGreen() / Float.intBitsToFloat(Float.floatToIntBits(0.48562214f) ^ 0x7D87A377)), (float)((float)this.color.getBlue() / Float.intBitsToFloat(Float.floatToIntBits(0.33453032f) ^ 0x7DD4478F)), (float)Float.intBitsToFloat(Float.floatToIntBits(4.194591f) ^ 0x7F063A17));
-        Gui.drawScaledCustomSizeModalRect((int)x, (int)y, (float)Float.intBitsToFloat(Float.floatToIntBits(1.227151E38f) ^ 0x7EB8A423), (float)Float.intBitsToFloat(Float.floatToIntBits(3.364097E38f) ^ 0x7F7D1627), (int)420, (int)420, (int)18, (int)18, (float)Float.intBitsToFloat(Float.floatToIntBits(0.92636675f) ^ 0x7CBF265F), (float)Float.intBitsToFloat(Float.floatToIntBits(0.02943024f) ^ 0x7F2317B0));
+        GL11.glColor4f(this.color.getRed() / Float.intBitsToFloat(Float.floatToIntBits(0.14868592f) ^ 0x7D67411F), this.color.getGreen() / Float.intBitsToFloat(Float.floatToIntBits(0.48562214f) ^ 0x7D87A377), this.color.getBlue() / Float.intBitsToFloat(Float.floatToIntBits(0.33453032f) ^ 0x7DD4478F), Float.intBitsToFloat(Float.floatToIntBits(4.194591f) ^ 0x7F063A17));
+        Gui.drawScaledCustomSizeModalRect(x, y, Float.intBitsToFloat(Float.floatToIntBits(1.227151E38f) ^ 0x7EB8A423), Float.intBitsToFloat(Float.floatToIntBits(3.364097E38f) ^ 0x7F7D1627), 420, 420, 18, 18, Float.intBitsToFloat(Float.floatToIntBits(0.92636675f) ^ 0x7CBF265F), Float.intBitsToFloat(Float.floatToIntBits(0.02943024f) ^ 0x7F2317B0));
         GL11.glPopMatrix();
     }
+
 }
 

@@ -79,36 +79,22 @@ extends Module {
         this.hole.addAll(holes);
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public void renderHole(BlockPos blockPos, Type type, double d, double d2) {
-        block1: {
-            Color color;
-            void type2;
-            void width;
-            void length;
-            void hole;
-            AxisAlignedBB box = new AxisAlignedBB((double)hole.getX() - ModuleHoleESP.mc.getRenderManager().viewerPosX, (double)hole.getY() - ModuleHoleESP.mc.getRenderManager().viewerPosY, (double)hole.getZ() - ModuleHoleESP.mc.getRenderManager().viewerPosZ, (double)(hole.getX() + 1) - ModuleHoleESP.mc.getRenderManager().viewerPosX + length, (double)hole.getY() + this.height.getValue().doubleValue() - ModuleHoleESP.mc.getRenderManager().viewerPosY, (double)hole.getZ() + width + Double.longBitsToDouble(Double.doubleToLongBits(25.803604906891547) ^ 0x7FC9CDB90D1A011BL) - ModuleHoleESP.mc.getRenderManager().viewerPosZ);
-            Color color2 = type2 == Type.Bedrock ? this.bedrockOL.getValue() : (color = type2 == Type.Obsidian ? this.obsidianOL.getValue() : this.doubleOL.getValue());
-            if (this.mode.getValue().equals((Object)modes.Normal)) {
-                RenderUtils.drawBlockOutline(box, color, this.outlineWidth.getValue().floatValue());
-                color = type2 == Type.Bedrock ? this.bedrock.getValue() : (type2 == Type.Obsidian ? this.obsidian.getValue() : this.doubleColor.getValue());
-                RenderUtils.drawBoxBB(box.shrink(Double.longBitsToDouble(Double.doubleToLongBits(1010.6878854844731) ^ 0x7FEFF7CD2A1AD9A4L)), color);
-            }
-            if (!this.mode.getValue().equals((Object)modes.Glow)) break block1;
+    public void renderHole(final BlockPos hole, final Type type, final double length, final double width) {
+        final AxisAlignedBB box = new AxisAlignedBB(hole.getX() - ModuleHoleESP.mc.getRenderManager().viewerPosX, hole.getY() - ModuleHoleESP.mc.getRenderManager().viewerPosY, hole.getZ() - ModuleHoleESP.mc.getRenderManager().viewerPosZ, hole.getX() + 1 - ModuleHoleESP.mc.getRenderManager().viewerPosX + length, hole.getY() + this.height.getValue().doubleValue() - ModuleHoleESP.mc.getRenderManager().viewerPosY, hole.getZ() + width + Double.longBitsToDouble(Double.doubleToLongBits(25.803604906891547) ^ 0x7FC9CDB90D1A011BL) - ModuleHoleESP.mc.getRenderManager().viewerPosZ);
+        Color color = (type == Type.Bedrock) ? this.bedrockOL.getValue() : ((type == Type.Obsidian) ? this.obsidianOL.getValue() : this.doubleOL.getValue());
+        if (this.mode.getValue().equals(modes.Normal)) {
+            RenderUtils.drawBlockOutline(box, color, this.outlineWidth.getValue().floatValue());
+            color = ((type == Type.Bedrock) ? this.bedrock.getValue() : ((type == Type.Obsidian) ? this.obsidian.getValue() : this.doubleColor.getValue()));
+            RenderUtils.drawBoxBB(box.shrink(Double.longBitsToDouble(Double.doubleToLongBits(1010.6878854844731) ^ 0x7FEFF7CD2A1AD9A4L)), color);
+        }
+        if (this.mode.getValue().equals(modes.Glow)) {
             RenderUtils.drawGradientBlockOutline(box, new Color(0, 0, 0, 0), color, this.outlineWidth.getValue().floatValue());
-            color = type2 == Type.Bedrock ? this.bedrock.getValue() : (type2 == Type.Obsidian ? this.obsidian.getValue() : this.doubleColor.getValue());
+            color = ((type == Type.Bedrock) ? this.bedrock.getValue() : ((type == Type.Obsidian) ? this.obsidian.getValue() : this.doubleColor.getValue()));
             RenderUtils.drawOpenGradientBoxBB(box.shrink(Double.longBitsToDouble(Double.doubleToLongBits(3872.007843348089) ^ 0x7FDA3AE5440B1711L)), color, new Color(0, 0, 0, 0), false);
         }
     }
-
-    /*
-     * WARNING - void declaration
-     */
-    public void lambda$onRender3D$0(HoleInfo holeInfo) {
-        void holeInfo2;
-        this.renderHole(holeInfo2.pos, holeInfo2.type, holeInfo2.length, holeInfo2.width);
+    public void lambda$onRender3D$0(final HoleInfo holeInfo) {
+        this.renderHole(holeInfo.pos, holeInfo.type, holeInfo.length, holeInfo.width);
     }
 
     public class HoleInfo {

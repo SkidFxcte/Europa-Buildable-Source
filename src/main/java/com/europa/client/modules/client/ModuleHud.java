@@ -142,55 +142,11 @@ extends Module {
         return ChatFormatting.WHITE;
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public void drawStringWithShadow(String string, float f, float f2, int n) {
-        Europa.FONT_MANAGER.drawString((String) text, (float) x, (float) y, new Color((int) color));
-    }
 
     public float getStringWidth(final String text) {
         return Europa.FONT_MANAGER.getStringWidth(text);
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public void drawRainbowString(String string, float f, float f2, int n) {
-        void text;
-        int currentWidth = 0;
-        boolean shouldRainbow = true;
-        boolean shouldContinue = false;
-        int[] counterChing = new int[]{1};
-        for (int i = 0; i < text.length(); ++i) {
-            void y;
-            void x;
-            Color color = RainbowUtils.anyRainbowColor(counterChing[0] * rainbowOffset.getValue().intValue(), rainbowSat.getValue().intValue(), rainbowBri.getValue().intValue());
-            char currentChar = text.charAt(i);
-            char nextChar = text.charAt(MathHelper.clamp((int)(i + 1), (int)0, (int)(text.length() - 1)));
-            if ((String.valueOf(currentChar) + nextChar).equals("\u00a7r")) {
-                shouldRainbow = false;
-            } else if ((String.valueOf(currentChar) + nextChar).equals("\u00a7+")) {
-                shouldRainbow = true;
-            }
-            if (shouldContinue) {
-                shouldContinue = false;
-                continue;
-            }
-            if ((String.valueOf(currentChar) + nextChar).equals("\u00a7r")) {
-                String escapeString = text.subString(i);
-                Europa.FONT_MANAGER.drawString(escapeString, (float)(x + (float)currentWidth), (float)y, Color.WHITE);
-                break;
-            }
-            Europa.FONT_MANAGER.drawString(String.valueOf(currentChar).equals("\u00a7") ? "" : String.valueOf(currentChar), (float)(x + (float)currentWidth), (float)y, shouldRainbow ? color : Color.WHITE);
-            if (String.valueOf(currentChar).equals("\u00a7")) {
-                shouldContinue = true;
-            }
-            currentWidth = (int)((float)currentWidth + this.getStringWidth(String.valueOf(currentChar)));
-            if (String.valueOf(currentChar).equals(" ")) continue;
-            counterChing[0] = counterChing[0] + 1;
-        }
-    }
 
     public static String getFacing() {
         switch (MathHelper.floor((double)((double)(ModuleHud.mc.player.rotationYaw * Float.intBitsToFloat(Float.floatToIntBits(0.24909489f) ^ 0x7F7F12BB) / Float.intBitsToFloat(Float.floatToIntBits(0.07333299f) ^ 0x7E222F9B)) + Double.longBitsToDouble(Double.doubleToLongBits(29.27572401542503) ^ 0x7FDD4695D95CF8E9L))) & 7) {
@@ -283,10 +239,8 @@ extends Module {
         final Color gradientColor = RainbowUtils.getGradientOffset(color1, color2, Math.abs((System.currentTimeMillis() % ((long)2108332745 ^ 0x7DAA9D19L) / Float.intBitsToFloat(Float.floatToIntBits(8.5311214E-4f) ^ 0x7E25A363) + Float.intBitsToFloat(Float.floatToIntBits(0.26764295f) ^ 0x7F29087F) / (mods[0] * 2 + 10) * Float.intBitsToFloat(Float.floatToIntBits(0.36572203f) ^ 0x7EBB3FEB)) % Float.intBitsToFloat(Float.floatToIntBits(0.8683099f) ^ 0x7F5E498F) - Float.intBitsToFloat(Float.floatToIntBits(183.88963f) ^ 0x7CB7E3BF)));
         final Color waveColor = RainbowUtils.astolfoRainbow(color, 50, mods[0] * 2 + 10);
         if (ModuleHud.colorMode.getValue().equals(colorModes.Rainbow)) {
-            this.drawStringWithShadow("§+" + m.getTag() + "§r" + ChatFormatting.GRAY + m.getHudInfo(), scaledRes.getScaledWidth() - 2 - this.getStringWidth(string), (float)(scaledRes.getScaledHeight() + mods[0] * -10 - 12), ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB()));
         }
         else {
-            this.drawStringWithShadow(string, scaledRes.getScaledWidth() - 2 - this.getStringWidth(string), (float)(scaledRes.getScaledHeight() + mods[0] * -10 - 12), ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB()));
         }
         final int n = 0;
         ++mods[n];
@@ -303,10 +257,8 @@ extends Module {
         final Color gradientColor = RainbowUtils.getGradientOffset(color1, color2, Math.abs((System.currentTimeMillis() % ((long)(-2097645959) ^ 0xFFFFFFFF82F871A9L) / Float.intBitsToFloat(Float.floatToIntBits(0.0037705372f) ^ 0x7F0D1B1E) + Float.intBitsToFloat(Float.floatToIntBits(0.515287f) ^ 0x7EA3E9D9) / (mods[0] * 2 + 10) * Float.intBitsToFloat(Float.floatToIntBits(0.7716851f) ^ 0x7F458D28)) % Float.intBitsToFloat(Float.floatToIntBits(0.67488766f) ^ 0x7F2CC570) - Float.intBitsToFloat(Float.floatToIntBits(10.664624f) ^ 0x7EAAA24D)));
         final Color waveColor = RainbowUtils.astolfoRainbow(color, 50, mods[0] * 2 + 10);
         if (ModuleHud.colorMode.getValue().equals(colorModes.Rainbow)) {
-            this.drawStringWithShadow("§+" + m.getTag() + "§r" + ChatFormatting.GRAY + m.getHudInfo(), scaledRes.getScaledWidth() - 2 - this.getStringWidth(string), (float)(scaledRes.getScaledHeight() + mods[0] * -10 - 12), ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB()));
         }
         else {
-            this.drawStringWithShadow(string, scaledRes.getScaledWidth() - 2 - this.getStringWidth(string), (float)(scaledRes.getScaledHeight() + mods[0] * -10 - 12), ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB()));
         }
         final int n = 0;
         ++mods[n];
@@ -329,10 +281,8 @@ extends Module {
         final String s = name + " " + amplifier + this.getInfoColor() + " " + (int)duration / 60 + ":" + seconds;
         final String sR = "§+" + name + " " + amplifier + "§r" + this.getInfoColor() + " " + (int)duration / 60 + ":" + seconds;
         if (ModuleHud.colorMode.getValue().equals(colorModes.Rainbow)) {
-            this.drawStringWithShadow(sR, scaledRes.getScaledWidth() - 2 - this.getStringWidth(s), (float)(2 + potCount[0] * 10 + ((ModuleHud.effectHud.getValue().equals(effectHudModes.Move) && !ModuleHud.mc.player.getActivePotionEffects().isEmpty()) ? 25 : 0)), ModuleHud.potionSync.getValue() ? (ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB())) : potionColor);
         }
         else {
-            this.drawStringWithShadow(s, scaledRes.getScaledWidth() - 2 - this.getStringWidth(s), (float)(2 + potCount[0] * 10 + ((ModuleHud.effectHud.getValue().equals(effectHudModes.Move) && !ModuleHud.mc.player.getActivePotionEffects().isEmpty()) ? 25 : 0)), ModuleHud.potionSync.getValue() ? (ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB())) : potionColor);
         }
         final int n = 0;
         ++potCount[n];
@@ -343,10 +293,8 @@ extends Module {
         final Color gradientColor = RainbowUtils.getGradientOffset(color1, color2, Math.abs((System.currentTimeMillis() % ((long)2117042502 ^ 0x7E2F8696L) / Float.intBitsToFloat(Float.floatToIntBits(0.0010046951f) ^ 0x7EF9AFF9) + Float.intBitsToFloat(Float.floatToIntBits(0.736677f) ^ 0x7E9C96DD) / (mods[0] * 2 + 10) * Float.intBitsToFloat(Float.floatToIntBits(0.5016872f) ^ 0x7F006E93)) % Float.intBitsToFloat(Float.floatToIntBits(0.3803688f) ^ 0x7EC2BFB3) - Float.intBitsToFloat(Float.floatToIntBits(4.333528f) ^ 0x7F0AAC43)));
         final Color waveColor = RainbowUtils.astolfoRainbow(color, 50, mods[0] * 2 + 10);
         if (ModuleHud.colorMode.getValue().equals(colorModes.Rainbow)) {
-            this.drawRainbowString("§+" + m.getTag() + "§r" + ChatFormatting.GRAY + m.getHudInfo(), scaledRes.getScaledWidth() - 2 - this.getStringWidth(string), (float)(2 + mods[0] * 10 + ((ModuleHud.effectHud.getValue().equals(effectHudModes.Move) && !ModuleHud.mc.player.getActivePotionEffects().isEmpty()) ? 25 : 0)), ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB()));
         }
         else {
-            this.drawStringWithShadow(string, scaledRes.getScaledWidth() - 2 - this.getStringWidth(string), (float)(2 + mods[0] * 10 + ((ModuleHud.effectHud.getValue().equals(effectHudModes.Move) && !ModuleHud.mc.player.getActivePotionEffects().isEmpty()) ? 25 : 0)), ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB()));
         }
         final int n = 0;
         ++mods[n];
@@ -364,10 +312,8 @@ extends Module {
         final Color gradientColor = RainbowUtils.getGradientOffset(color1, color2, Math.abs((System.currentTimeMillis() % ((long)2129097541 ^ 0x7EE77495L) / Float.intBitsToFloat(Float.floatToIntBits(8.66834E-4f) ^ 0x7E193C3F) + Float.intBitsToFloat(Float.floatToIntBits(1.5896639f) ^ 0x7E6B7A1B) / (mods[0] * 2 + 10) * Float.intBitsToFloat(Float.floatToIntBits(0.21881954f) ^ 0x7E60123B)) % Float.intBitsToFloat(Float.floatToIntBits(0.7683363f) ^ 0x7F44B1B0) - Float.intBitsToFloat(Float.floatToIntBits(35.610073f) ^ 0x7D8E70B7)));
         final Color waveColor = RainbowUtils.astolfoRainbow(color, 50, mods[0] * 2 + 10);
         if (ModuleHud.colorMode.getValue().equals(colorModes.Rainbow)) {
-            this.drawRainbowString("§+" + m.getTag() + "§r" + ChatFormatting.GRAY + m.getHudInfo(), scaledRes.getScaledWidth() - 2 - this.getStringWidth(string), (float)(2 + mods[0] * 10 + ((ModuleHud.effectHud.getValue().equals(effectHudModes.Move) && !ModuleHud.mc.player.getActivePotionEffects().isEmpty()) ? 25 : 0)), ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB()));
         }
         else {
-            this.drawStringWithShadow(string, scaledRes.getScaledWidth() - 2 - this.getStringWidth(string), (float)(2 + mods[0] * 10 + ((ModuleHud.effectHud.getValue().equals(effectHudModes.Move) && !ModuleHud.mc.player.getActivePotionEffects().isEmpty()) ? 25 : 0)), ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB()));
         }
         final int n = 0;
         ++mods[n];
@@ -390,10 +336,8 @@ extends Module {
         final String s = name + " " + amplifier + this.getInfoColor() + " " + (int)duration / 60 + ":" + seconds;
         final String sR = "§+" + name + " " + amplifier + "§r" + this.getInfoColor() + " " + (int)duration / 60 + ":" + seconds;
         if (ModuleHud.colorMode.getValue().equals(colorModes.Rainbow) && ModuleHud.potionSync.getValue()) {
-            this.drawRainbowString(sR, scaledRes.getScaledWidth() - 2 - this.getStringWidth(s), (float)(scaledRes.getScaledHeight() + potCount[0] * -10 - 10 - 2), ModuleHud.potionSync.getValue() ? (ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB())) : potionColor);
         }
         else {
-            this.drawStringWithShadow(s, scaledRes.getScaledWidth() - 2 - this.getStringWidth(s), (float)(scaledRes.getScaledHeight() + potCount[0] * -10 - 10 - 2), ModuleHud.potionSync.getValue() ? (ModuleHud.colorMode.getValue().equals(colorModes.Static) ? this.colorHud.getRGB() : (ModuleHud.colorMode.getValue().equals(colorModes.Wave) ? waveColor.getRGB() : gradientColor.getRGB())) : potionColor);
         }
         final int n = 0;
         ++potCount[n];

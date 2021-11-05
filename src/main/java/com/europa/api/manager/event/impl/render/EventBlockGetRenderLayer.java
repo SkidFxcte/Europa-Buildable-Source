@@ -5,6 +5,7 @@
 package com.europa.api.manager.event.impl.render;
 
 import com.europa.client.mixins.impl.blocks.*;
+import net.minecraft.block.Block;
 import net.minecraft.util.BlockRenderLayer;
 import com.europa.api.manager.event.Event;
 
@@ -190,7 +191,7 @@ public class EventBlockGetRenderLayer extends Event
         this._blockLeaves = block;
     }
 
-    public MixinBlock getBlock() {
+    public Block getBlock() {
         return this._block;
     }
 

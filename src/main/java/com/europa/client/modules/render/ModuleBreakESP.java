@@ -13,6 +13,8 @@ import com.europa.api.utilities.render.RenderUtils;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.europa.client.minecraft.RenderGlobal;
 import net.minecraft.client.renderer.DestroyBlockProgress;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,47 +47,34 @@ extends Module {
 
     @Override
     public void onRender3D(EventRender3D eventRender3D) {
-        ModuleBreakESP.mc.renderGlobal.damagedBlocks.forEach(this::lambda$onRender3D$0);
+        RenderGlobal.damagedBlocks.forEach(this::lambda$onRender3D$0);
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public static void drawText(BlockPos blockPos, String string, boolean bl) {
-        void text;
-        BlockPos pos;
-        void font;
-        if (font != false) {
+    public static void drawText(final BlockPos pos, final String text, final boolean font) {
+        if (font) {
             GlStateManager.pushMatrix();
-            RenderUtils.glBillboardDistanceScaled((float)pos.getX() + Float.intBitsToFloat(Float.floatToIntBits(20.708643f) ^ 0x7EA5AB4D), (float)pos.getY() + Float.intBitsToFloat(Float.floatToIntBits(19.350775f) ^ 0x7E9ACE63), (float)pos.getZ() + Float.intBitsToFloat(Float.floatToIntBits(2.8721447f) ^ 0x7F37D138), (EntityPlayer)ModuleBreakESP.mc.player, Float.intBitsToFloat(Float.floatToIntBits(18.572966f) ^ 0x7E14956F));
+            RenderUtils.glBillboardDistanceScaled(pos.getX() + Float.intBitsToFloat(Float.floatToIntBits(20.708643f) ^ 0x7EA5AB4D), pos.getY() + Float.intBitsToFloat(Float.floatToIntBits(19.350775f) ^ 0x7E9ACE63), pos.getZ() + Float.intBitsToFloat(Float.floatToIntBits(2.8721447f) ^ 0x7F37D138), (EntityPlayer) ModuleBreakESP.mc.player, Float.intBitsToFloat(Float.floatToIntBits(18.572966f) ^ 0x7E14956F));
             GlStateManager.disableDepth();
-            GlStateManager.translate((double)(-((double)Europa.FONT_MANAGER.getStringWidth((String)text) / Double.longBitsToDouble(Double.doubleToLongBits(0.35480790991781513) ^ 0x7FD6B52C3C5D6263L))), (double)Double.longBitsToDouble(Double.doubleToLongBits(1.5070836346222474E308) ^ 0x7FEAD3B4E8652237L), (double)Double.longBitsToDouble(Double.doubleToLongBits(1.4005978506939195E308) ^ 0x7FE8EE74C5D378B0L));
-            Europa.FONT_MANAGER.drawString((String)text, Float.intBitsToFloat(Float.floatToIntBits(1.671886E38f) ^ 0x7EFB8EB5), Float.intBitsToFloat(Float.floatToIntBits(2.9987443E38f) ^ 0x7F6199B7), Color.WHITE);
+            GlStateManager.translate(-(Europa.FONT_MANAGER.getStringWidth(text) / Double.longBitsToDouble(Double.doubleToLongBits(0.35480790991781513) ^ 0x7FD6B52C3C5D6263L)), Double.longBitsToDouble(Double.doubleToLongBits(1.5070836346222474E308) ^ 0x7FEAD3B4E8652237L), Double.longBitsToDouble(Double.doubleToLongBits(1.4005978506939195E308) ^ 0x7FE8EE74C5D378B0L));
+            Europa.FONT_MANAGER.drawString(text, Float.intBitsToFloat(Float.floatToIntBits(1.671886E38f) ^ 0x7EFB8EB5), Float.intBitsToFloat(Float.floatToIntBits(2.9987443E38f) ^ 0x7F6199B7), Color.WHITE);
             GlStateManager.popMatrix();
         } else {
             GlStateManager.pushMatrix();
-            RenderUtils.glBillboardDistanceScaled((float)pos.getX() + Float.intBitsToFloat(Float.floatToIntBits(2.9254267f) ^ 0x7F3B3A31), (float)pos.getY() + Float.intBitsToFloat(Float.floatToIntBits(2.620229f) ^ 0x7F27B1D5), (float)pos.getZ() + Float.intBitsToFloat(Float.floatToIntBits(2.5236466f) ^ 0x7F21836D), (EntityPlayer)ModuleBreakESP.mc.player, Float.intBitsToFloat(Float.floatToIntBits(6.8190985f) ^ 0x7F5A360E));
+            RenderUtils.glBillboardDistanceScaled(pos.getX() + Float.intBitsToFloat(Float.floatToIntBits(2.9254267f) ^ 0x7F3B3A31), pos.getY() + Float.intBitsToFloat(Float.floatToIntBits(2.620229f) ^ 0x7F27B1D5), pos.getZ() + Float.intBitsToFloat(Float.floatToIntBits(2.5236466f) ^ 0x7F21836D), (EntityPlayer) ModuleBreakESP.mc.player, Float.intBitsToFloat(Float.floatToIntBits(6.8190985f) ^ 0x7F5A360E));
             GlStateManager.disableDepth();
-            GlStateManager.translate((double)(-((double)ModuleBreakESP.mc.fontRenderer.getStringWidth((String)text) / Double.longBitsToDouble(Double.doubleToLongBits(0.9636339461626108) ^ 0x7FEED616DB82AECDL))), (double)Double.longBitsToDouble(Double.doubleToLongBits(1.0820626527415532E308) ^ 0x7FE342E822288829L), (double)Double.longBitsToDouble(Double.doubleToLongBits(1.084402768703347E308) ^ 0x7FE34D92109652A1L));
-            ModuleBreakESP.mc.fontRenderer.drawStringWithShadow((String)text, Float.intBitsToFloat(Float.floatToIntBits(2.106353E38f) ^ 0x7F1E76E2), Float.intBitsToFloat(Float.floatToIntBits(2.5754297E38f) ^ 0x7F41C0F9), -1);
+            GlStateManager.translate(-(ModuleBreakESP.mc.fontRenderer.getStringWidth(text) / Double.longBitsToDouble(Double.doubleToLongBits(0.9636339461626108) ^ 0x7FEED616DB82AECDL)), Double.longBitsToDouble(Double.doubleToLongBits(1.0820626527415532E308) ^ 0x7FE342E822288829L), Double.longBitsToDouble(Double.doubleToLongBits(1.084402768703347E308) ^ 0x7FE34D92109652A1L));
+            ModuleBreakESP.mc.fontRenderer.drawStringWithShadow(text, Float.intBitsToFloat(Float.floatToIntBits(2.106353E38f) ^ 0x7F1E76E2), Float.intBitsToFloat(Float.floatToIntBits(2.5754297E38f) ^ 0x7F41C0F9), -1);
             GlStateManager.popMatrix();
         }
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public void lambda$onRender3D$0(Integer n, DestroyBlockProgress destroyBlockProgress) {
-        block1: {
-            void breakBlock;
-            void breakingGuy;
-            if (breakingGuy == null) {
-                return;
-            }
-            RenderUtils.drawBoxESP(breakBlock.getPosition(), new Color(red.getValue().intValue(), green.getValue().intValue(), blue.getValue().intValue()), Float.intBitsToFloat(Float.floatToIntBits(16.120825f) ^ 0x7E00F773), outline.getValue(), true, alpha.getValue().intValue(), true, Double.longBitsToDouble(Double.doubleToLongBits(1.7524877085073546E307) ^ 0x7FB8F4CD052D6637L), false);
-            if (!percent.getValue()) break block1;
-            ModuleBreakESP.drawText(breakBlock.getPosition(), this.percentMap.get(breakBlock.getPartialBlockDamage()).toString() + "%" + (name.getValue() ? " " + ModuleBreakESP.mc.world.getEntityByID(breakingGuy.intValue()).getName() : ""), Europa.getModuleManager().isModuleEnabled("Font"));
+    public void lambda$onRender3D$0(final Integer breakingGuy, final DestroyBlockProgress breakBlock) {
+        if (breakingGuy == null) {
+            return;
+        }
+        RenderUtils.drawBoxESP(breakBlock.getPosition(), new Color(ModuleBreakESP.red.getValue().intValue(), ModuleBreakESP.green.getValue().intValue(), ModuleBreakESP.blue.getValue().intValue()), Float.intBitsToFloat(Float.floatToIntBits(16.120825f) ^ 0x7E00F773), ModuleBreakESP.outline.getValue(), true, ModuleBreakESP.alpha.getValue().intValue(), true, Double.longBitsToDouble(Double.doubleToLongBits(1.7524877085073546E307) ^ 0x7FB8F4CD052D6637L), false);
+        if (ModuleBreakESP.percent.getValue()) {
+            drawText(breakBlock.getPosition(), this.percentMap.get(breakBlock.getPartialBlockDamage()).toString() + "%" + (ModuleBreakESP.name.getValue() ? (" " + ModuleBreakESP.mc.world.getEntityByID((int) breakingGuy).getName()) : ""), Europa.getModuleManager().isModuleEnabled("Font"));
         }
     }
 }
-

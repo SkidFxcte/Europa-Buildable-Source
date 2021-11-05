@@ -53,14 +53,9 @@ extends Module {
         }
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public static Vec3d centerPos(double d, double d2, double d3) {
-        void posZ;
-        void posY;
-        double posX;
-        return new Vec3d(Math.floor(posX) + Double.longBitsToDouble(Double.doubleToLongBits(21.903821322356034) ^ 0x7FD5E760D58CF257L), Math.floor((double)posY), Math.floor((double)posZ) + Double.longBitsToDouble(Double.doubleToLongBits(13.973516247435112) ^ 0x7FCBF270B8B9B787L));
+    public static Vec3d centerPos(final double posX, final double posY, final double posZ) {
+        return new Vec3d(Math.floor(posX) + Double.longBitsToDouble(Double.doubleToLongBits(21.903821322356034) ^ 0x7FD5E760D58CF257L), Math.floor(posY), Math.floor(posZ) + Double.longBitsToDouble(Double.doubleToLongBits(13.973516247435112) ^ 0x7FCBF270B8B9B787L));
     }
+
 }
 

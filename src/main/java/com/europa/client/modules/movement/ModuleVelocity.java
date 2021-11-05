@@ -9,8 +9,11 @@ import com.europa.api.manager.module.Module;
 import com.europa.api.manager.module.ModuleCategory;
 import com.europa.api.manager.value.impl.ValueBoolean;
 import com.europa.api.manager.value.impl.ValueNumber;
-import net.minecraft.network.play.server.SPacketEntityVelocity;
-import net.minecraft.network.play.server.SPacketExplosion;
+import com.europa.client.minecraft.Entity;
+import com.europa.client.minecraft.SPacketEntityVelocity;
+import com.europa.client.minecraft.SPacketExplosion;
+
+import net.minecraft.network.play.server.SPacketEntity;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ModuleVelocity
@@ -32,7 +35,7 @@ extends Module {
         if (ModuleVelocity.mc.player == null || ModuleVelocity.mc.world == null) {
             return;
         }
-        if (receive.getPacket() instanceof SPacketEntityVelocity && (sPacketEntityVelocity = (SPacketEntityVelocity)receive.getPacket()).getEntityID() == ModuleVelocity.mc.player.entityId) {
+        if (receive.getPacket() instanceof SPacketEntityVelocity && (sPacketEntityVelocity = (SPacketEntityVelocity) receive.getPacket()).getEntityID() == Entity.entityId) {
             if (horizontal.getValue().floatValue() == Float.intBitsToFloat(Float.floatToIntBits(6.2763993E37f) ^ 0x7E3CDF9F) && vertical.getValue().floatValue() == Float.intBitsToFloat(Float.floatToIntBits(1.843314E38f) ^ 0x7F0AACF0)) {
                 receive.setCancelled(true);
             } else {

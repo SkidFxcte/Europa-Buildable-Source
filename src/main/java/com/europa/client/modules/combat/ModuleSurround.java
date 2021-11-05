@@ -112,7 +112,6 @@ extends Module {
             offsets.addAll(tempOffsets);
         } else {
             for (EnumFacing side : EnumFacing.HORIZONTALS) {
-                offsets.add(this.getPlayerPosition().add(side.getFrontOffsetX(), 0, side.getFrontOffsetZ()));
             }
         }
         return offsets;

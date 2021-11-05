@@ -9,6 +9,9 @@ import com.europa.api.manager.module.Module;
 import com.europa.api.manager.module.ModuleCategory;
 import com.europa.api.manager.value.impl.ValueBoolean;
 import com.europa.api.manager.value.impl.ValueEnum;
+import com.europa.client.minecraft.Entity;
+import com.europa.client.minecraft.Minecraft;
+import com.europa.client.minecraft.Timer;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.init.MobEffects;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
@@ -61,7 +64,7 @@ extends Module {
     public void onMotionUpdate() {
         if (timer.getValue()) {
             this.timerSpeed = (double)ModuleSpeed.mc.player.moveForward != Double.longBitsToDouble(Double.doubleToLongBits(1.168460553614635E307) ^ 0x7FB0A3B1B96EA6F7L) || (double)ModuleSpeed.mc.player.moveStrafing != Double.longBitsToDouble(Double.doubleToLongBits(5.114650836328078E307) ^ 0x7FD235716300478BL) ? Math.min(this.timerSpeed + Float.intBitsToFloat(Float.floatToIntBits(4392.4673f) ^ 0x7E4DD81B), Float.intBitsToFloat(Float.floatToIntBits(8.297638f) ^ 0x7E880FED)) : Float.intBitsToFloat(Float.floatToIntBits(13.313794f) ^ 0x7ED5054D);
-            ModuleSpeed.mc.timer.tickLength = Float.intBitsToFloat(Float.floatToIntBits(1.9499959f) ^ 0x7DB19977) / this.timerSpeed;
+            Timer.tickLength = Float.intBitsToFloat(Float.floatToIntBits(1.9499959f) ^ 0x7DB19977) / this.timerSpeed;
         }
     }
 
@@ -79,7 +82,7 @@ extends Module {
         }
         if (ModuleSpeed.mc.player.isSneaking()) return;
         if (ModuleSpeed.mc.player.isOnLadder()) return;
-        if (ModuleSpeed.mc.player.isInWeb) return;
+        if (Entity.isInWeb) return;
         if (ModuleSpeed.mc.player.capabilities.isFlying) {
             return;
         }
@@ -132,13 +135,12 @@ extends Module {
 
     @Override
     public void onDisable() {
-        ModuleSpeed.mc.timer.tickLength = Float.intBitsToFloat(Float.floatToIntBits(0.023921477f) ^ 0x7E8BF6F9);
+        Timer.tickLength = Float.intBitsToFloat(Float.floatToIntBits(0.023921477f) ^ 0x7E8BF6F9);
         MinecraftForge.EVENT_BUS.unregister((Object)this);
     }
 
     public static enum modes {
         Strafe;
-
     }
 }
 

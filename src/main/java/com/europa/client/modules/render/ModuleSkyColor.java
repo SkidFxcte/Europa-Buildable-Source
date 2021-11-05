@@ -18,15 +18,12 @@ extends Module {
         super("SkyColor", "Sky Color", "Changes the color of the sky.", ModuleCategory.RENDER);
     }
 
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
-    public void onEntityRender(EntityViewRenderEvent.FogColors fogColors) {
-        void event;
-        event.setRed((float)daColor.getValue().getRed() / Float.intBitsToFloat(Float.floatToIntBits(0.009777151f) ^ 0x7F5F3058));
-        event.setGreen((float)daColor.getValue().getGreen() / Float.intBitsToFloat(Float.floatToIntBits(0.06490492f) ^ 0x7EFBECDF));
-        event.setBlue((float)daColor.getValue().getBlue() / Float.intBitsToFloat(Float.floatToIntBits(0.009649655f) ^ 0x7F611996));
+    public void onEntityRender(final EntityViewRenderEvent.FogColors event) {
+        event.setRed(ModuleSkyColor.daColor.getValue().getRed() / Float.intBitsToFloat(Float.floatToIntBits(0.009777151f) ^ 0x7F5F3058));
+        event.setGreen(ModuleSkyColor.daColor.getValue().getGreen() / Float.intBitsToFloat(Float.floatToIntBits(0.06490492f) ^ 0x7EFBECDF));
+        event.setBlue(ModuleSkyColor.daColor.getValue().getBlue() / Float.intBitsToFloat(Float.floatToIntBits(0.009649655f) ^ 0x7F611996));
     }
+
 }
 

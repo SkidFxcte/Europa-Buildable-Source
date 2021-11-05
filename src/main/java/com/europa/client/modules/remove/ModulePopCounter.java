@@ -27,9 +27,6 @@ extends Module {
         super("PopCounter", "Pop Counter", "", ModuleCategory.COMBAT);
     }
 
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
     public void onReceive(EventPacket.Receive receive) {
         block6: {

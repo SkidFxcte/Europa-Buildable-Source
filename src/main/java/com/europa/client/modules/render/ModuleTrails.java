@@ -38,17 +38,24 @@ extends Module {
     }
 
     @SubscribeEvent
-    public void onMotion(EventMotionUpdate eventMotionUpdate) {
+    public void onMotion(final EventMotionUpdate event) {
         if (ModuleTrails.mc.player == null || ModuleTrails.mc.world == null) {
             return;
         }
-        for (Entity entity : ModuleTrails.mc.world.loadedEntityList) {
-            if (!(entity instanceof EntityThrowable) && !(entity instanceof EntityArrow) || entity instanceof EntityExpBottle) continue;
-            ArrayList<Vec3d> vectors = this.renderMap.get(entity) != null ? this.renderMap.get(entity) : new ArrayList<Vec3d>();
+        for (final Entity entity : ModuleTrails.mc.world.loadedEntityList) {
+            if (!(entity instanceof EntityThrowable) && !(entity instanceof EntityArrow)) {
+                continue;
+            }
+            if (entity instanceof EntityExpBottle) {
+                continue;
+            }
+            final List<Vec3d> vectors = (this.renderMap.get(entity) != null) ? this.renderMap.get(entity) : new ArrayList<Vec3d>();
             vectors.add(new Vec3d(entity.posX, entity.posY, entity.posZ));
             this.renderMap.put(entity, vectors);
         }
     }
+
+
 
     @Override
     public void onRender3D(EventRender3D eventRender3D) {
@@ -87,8 +94,7 @@ extends Module {
         }
     }
 
-    public static Vec3d updateToCamera(Vec3d vec3d) {
-        Vec3d vec;
+    public static Vec3d updateToCamera(final Vec3d vec) {
         return new Vec3d(vec.x - ModuleTrails.mc.getRenderManager().viewerPosX, vec.y - ModuleTrails.mc.getRenderManager().viewerPosY, vec.z - ModuleTrails.mc.getRenderManager().viewerPosZ);
     }
 }

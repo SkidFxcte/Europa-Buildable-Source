@@ -1,66 +1,53 @@
-/*
- * Decompiled with CFR 0.151.
- */
+//
+// Decompiled by Procyon v0.5.36
+//
+
 package com.europa.client.modules.misc;
 
-import com.europa.api.manager.event.impl.network.EventPacket;
-import com.europa.api.manager.module.Module;
-import com.europa.api.manager.module.ModuleCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.play.server.SPacketSoundEffect;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import com.europa.api.manager.event.impl.network.EventPacket;
+import com.europa.api.manager.module.ModuleCategory;
+import com.europa.api.manager.module.Module;
 
-public class ModuleAutoFish
-extends Module {
-    public int delay = 0;
+public class ModuleAutoFish extends Module
+{
+    public int delay;
 
     public ModuleAutoFish() {
         super("AutoFish", "Auto Fish", "Automatically fishes for you.", ModuleCategory.MISC);
+        this.delay = 0;
     }
 
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
-    public void onReceive(EventPacket.Receive receive) {
-        block0: {
-            SPacketSoundEffect packet;
-            if (!(receive.getPacket() instanceof SPacketSoundEffect) || !(packet = (SPacketSoundEffect)receive.getPacket()).getSound().equals(SoundEvents.ENTITY_BOBBER_SPLASH)) break block0;
-            new Thread(this){
-                public ModuleAutoFish this$0;
-                {
-                    this.this$0 = this$0;
-                }
+    public void onReceive(final EventPacket.Receive event) {
+        if (event.getPacket() instanceof SPacketSoundEffect) {
+            final SPacketSoundEffect packet = (SPacketSoundEffect)event.getPacket();
+            if (packet.getSound().equals(SoundEvents.ENTITY_BOBBER_SPLASH)) {
+                new Thread() {
+                    public ModuleAutoFish this$0;
 
-                @Override
-                public void run() {
-                    Minecraft minecraft = ModuleAutoFish.access$000();
-                    minecraft.rightClickMouse();
-                    long l = (long)536403029 ^ 0x1FF8DD79L;
-                    try {
-                        Thread.sleep(l);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    @Override
+                    public void run() {
+                        try {
+                            com.europa.client.minecraft.Minecraft.rightClickMouse();
+                            Thread.sleep((long)536403029 ^ 0x1FF8DD79L);
+                            com.europa.client.minecraft.Minecraft.rightClickMouse();
+                        }
+                        catch (Exception ex) {}
                     }
-                    Minecraft minecraft2 = ModuleAutoFish.access$100();
-                    try {
-                        minecraft2.rightClickMouse();
-                    }
-                    catch (Exception exception) {
-                        // empty catch block
-                    }
-                }
-            }.start();
+                }.start();
+            }
         }
     }
 
     public static Minecraft access$000() {
-        return mc;
+        return ModuleAutoFish.mc;
     }
 
     public static Minecraft access$100() {
-        return mc;
+        return ModuleAutoFish.mc;
     }
 }
-

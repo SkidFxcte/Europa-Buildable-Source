@@ -72,42 +72,31 @@ extends Module {
         }
     }
 
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
-    public void onReceive(EventPacket.Receive receive) {
-        block2: {
-            SPacketSoundEffect packet;
-            block3: {
-                void event;
-                if (!(event.getPacket() instanceof SPacketSoundEffect)) break block2;
-                packet = (SPacketSoundEffect)event.getPacket();
-                if (packet.getSound() == SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT) break block3;
-                if (packet.getSound() != SoundEvents.ENTITY_ENDERMEN_TELEPORT) break block2;
+    public void onReceive(final EventPacket.Receive event) {
+        if (event.getPacket() instanceof SPacketSoundEffect) {
+            final SPacketSoundEffect packet = (SPacketSoundEffect)event.getPacket();
+            if (packet.getSound() != SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT) {
+                if (packet.getSound() != SoundEvents.ENTITY_ENDERMEN_TELEPORT) {
+                    return;
+                }
             }
-            BlockPos pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
-            this.chorusPositions.put(pos, new Sound(this, pos));
-            this.chorusPositions.get((Object)pos).starTime = System.currentTimeMillis();
+            final BlockPos pos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
+            this.chorusPositions.put(pos, new Sound(pos));
+            this.chorusPositions.get(pos).starTime = System.currentTimeMillis();
         }
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public static void drawText(BlockPos blockPos, String string, int n) {
-        void alpha;
-        void text;
-        BlockPos pos;
-        if (pos == null || text == null) {
-            return;
+
+    public static void drawText(final BlockPos pos, final String text, final int alpha) {
+        if (pos != null && text != null) {
+            GlStateManager.pushMatrix();
+            RenderUtils.glBillboardDistanceScaled(pos.getX() + Float.intBitsToFloat(Float.floatToIntBits(3.801634f) ^ 0x7F734DF9), pos.getY() + Float.intBitsToFloat(Float.floatToIntBits(3.1258135f) ^ 0x7F480D54), pos.getZ() + Float.intBitsToFloat(Float.floatToIntBits(3.872001f) ^ 0x7F77CEDD), (EntityPlayer)ModuleESP.mc.player, Float.intBitsToFloat(Float.floatToIntBits(13.906509f) ^ 0x7E6DB223));
+            GlStateManager.disableDepth();
+            GlStateManager.translate(-(Europa.FONT_MANAGER.getStringWidth(text) / Double.longBitsToDouble(Double.doubleToLongBits(0.081734107416205) ^ 0x7FB4EC86C652028FL)), Double.longBitsToDouble(Double.doubleToLongBits(8.635002465843543E307) ^ 0x7FDEBDDB69696349L), Double.longBitsToDouble(Double.doubleToLongBits(1.5280009210702316E308) ^ 0x7FEB330695F9CB87L));
+            Europa.FONT_MANAGER.drawString(text, Float.intBitsToFloat(Float.floatToIntBits(2.4994416E37f) ^ 0x7D966DFF), Float.intBitsToFloat(Float.floatToIntBits(2.6550794E38f) ^ 0x7F47BEF8), new Color(195, 54, 252, alpha));
+            GlStateManager.popMatrix();
         }
-        GlStateManager.pushMatrix();
-        RenderUtils.glBillboardDistanceScaled((float)pos.getX() + Float.intBitsToFloat(Float.floatToIntBits(3.801634f) ^ 0x7F734DF9), (float)pos.getY() + Float.intBitsToFloat(Float.floatToIntBits(3.1258135f) ^ 0x7F480D54), (float)pos.getZ() + Float.intBitsToFloat(Float.floatToIntBits(3.872001f) ^ 0x7F77CEDD), (EntityPlayer)ModuleESP.mc.player, Float.intBitsToFloat(Float.floatToIntBits(13.906509f) ^ 0x7E6DB223));
-        GlStateManager.disableDepth();
-        GlStateManager.translate((double)(-((double)Europa.FONT_MANAGER.getStringWidth((String)text) / Double.longBitsToDouble(Double.doubleToLongBits(0.081734107416205) ^ 0x7FB4EC86C652028FL))), (double)Double.longBitsToDouble(Double.doubleToLongBits(8.635002465843543E307) ^ 0x7FDEBDDB69696349L), (double)Double.longBitsToDouble(Double.doubleToLongBits(1.5280009210702316E308) ^ 0x7FEB330695F9CB87L));
-        Europa.FONT_MANAGER.drawString((String)text, Float.intBitsToFloat(Float.floatToIntBits(2.4994416E37f) ^ 0x7D966DFF), Float.intBitsToFloat(Float.floatToIntBits(2.6550794E38f) ^ 0x7F47BEF8), new Color(195, 54, 252, (int)alpha));
-        GlStateManager.popMatrix();
     }
 
     @Override
@@ -249,46 +238,43 @@ extends Module {
         }
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public void drawText(Entity entity) {
-        void entityIn;
+    public void drawText(final Entity entityIn) {
         if (ModuleESP.mc.player == null || ModuleESP.mc.world == null || ModuleESP.mc.getRenderManager().options == null) {
             return;
         }
         GlStateManager.pushMatrix();
-        double scale = Double.longBitsToDouble(Double.doubleToLongBits(7.544489495959348) ^ 0x7FEE2D8EA788A4C9L);
-        String name = entityIn instanceof EntityItem ? ((EntityItem)entityIn).getItem().getDisplayName() : (entityIn instanceof EntityEnderPearl ? "Thrown Ender Pearl" : (entityIn instanceof EntityExpBottle ? "Thrown Exp Bottle" : "null"));
-        Vec3d interp = EntityUtils.getInterpolatedRenderPos((Entity)entityIn, mc.getRenderPartialTicks());
-        float yAdd = entityIn.height / Float.intBitsToFloat(Float.floatToIntBits(0.75474775f) ^ 0x7F413726) + Float.intBitsToFloat(Float.floatToIntBits(3.058384f) ^ 0x7F43BC90);
-        double x = interp.x;
-        double y = interp.y + (double)yAdd;
-        double z = interp.z;
-        float viewerYaw = ModuleESP.mc.getRenderManager().playerViewY;
-        float viewerPitch = ModuleESP.mc.getRenderManager().playerViewX;
-        boolean isThirdPersonFrontal = ModuleESP.mc.getRenderManager().options.thirdPersonView == 2;
-        GlStateManager.translate((double)x, (double)y, (double)z);
-        GlStateManager.rotate((float)(-viewerYaw), (float)Float.intBitsToFloat(Float.floatToIntBits(2.4975824E38f) ^ 0x7F3BE5B0), (float)Float.intBitsToFloat(Float.floatToIntBits(5.8653016f) ^ 0x7F3BB08D), (float)Float.intBitsToFloat(Float.floatToIntBits(2.025141E38f) ^ 0x7F185ACC));
-        GlStateManager.rotate((float)((float)(isThirdPersonFrontal ? -1 : 1) * viewerPitch), (float)Float.intBitsToFloat(Float.floatToIntBits(11.825183f) ^ 0x7EBD33F3), (float)Float.intBitsToFloat(Float.floatToIntBits(1.8907396E38f) ^ 0x7F0E3E52), (float)Float.intBitsToFloat(Float.floatToIntBits(6.16727E37f) ^ 0x7E3996EB));
-        float f = ModuleESP.mc.player.getDistance((Entity)entityIn);
-        float m = f / Float.intBitsToFloat(Float.floatToIntBits(1.0004f) ^ 0x7E800D1B) * (float)Math.pow(Double.longBitsToDouble(Double.doubleToLongBits(4.8110394395124665) ^ 0x7FE71A0E1F71E38CL), Double.longBitsToDouble(Double.doubleToLongBits(4.67944022789239) ^ 0x7FE2B7BF2DD989D5L));
-        GlStateManager.scale((float)m, (float)m, (float)m);
-        FontRenderer fontRendererIn = ModuleESP.mc.fontRenderer;
-        GlStateManager.scale((float)Float.intBitsToFloat(Float.floatToIntBits(-357.211f) ^ 0x7F7E57CF), (float)Float.intBitsToFloat(Float.floatToIntBits(-452.38806f) ^ 0x7F2EFD61), (float)Float.intBitsToFloat(Float.floatToIntBits(392.9144f) ^ 0x7F08B9C6));
-        String str = name + (entityIn instanceof EntityItem ? " x" + ((EntityItem)entityIn).getItem().getCount() : "");
-        int i = fontRendererIn.getStringWidth(str) / 2;
+        final double scale = Double.longBitsToDouble(Double.doubleToLongBits(7.544489495959348) ^ 0x7FEE2D8EA788A4C9L);
+        final String name = (entityIn instanceof EntityItem) ? ((EntityItem)entityIn).getItem().getDisplayName() : ((entityIn instanceof EntityEnderPearl) ? "Thrown Ender Pearl" : ((entityIn instanceof EntityExpBottle) ? "Thrown Exp Bottle" : "null"));
+        final Vec3d interp = EntityUtils.getInterpolatedRenderPos(entityIn, ModuleESP.mc.getRenderPartialTicks());
+        final float yAdd = entityIn.height / Float.intBitsToFloat(Float.floatToIntBits(0.75474775f) ^ 0x7F413726) + Float.intBitsToFloat(Float.floatToIntBits(3.058384f) ^ 0x7F43BC90);
+        final double x = interp.x;
+        final double y = interp.y + yAdd;
+        final double z = interp.z;
+        final float viewerYaw = ModuleESP.mc.getRenderManager().playerViewY;
+        final float viewerPitch = ModuleESP.mc.getRenderManager().playerViewX;
+        final boolean isThirdPersonFrontal = ModuleESP.mc.getRenderManager().options.thirdPersonView == 2;
+        GlStateManager.translate(x, y, z);
+        GlStateManager.rotate(-viewerYaw, Float.intBitsToFloat(Float.floatToIntBits(2.4975824E38f) ^ 0x7F3BE5B0), Float.intBitsToFloat(Float.floatToIntBits(5.8653016f) ^ 0x7F3BB08D), Float.intBitsToFloat(Float.floatToIntBits(2.025141E38f) ^ 0x7F185ACC));
+        GlStateManager.rotate((isThirdPersonFrontal ? -1 : 1) * viewerPitch, Float.intBitsToFloat(Float.floatToIntBits(11.825183f) ^ 0x7EBD33F3), Float.intBitsToFloat(Float.floatToIntBits(1.8907396E38f) ^ 0x7F0E3E52), Float.intBitsToFloat(Float.floatToIntBits(6.16727E37f) ^ 0x7E3996EB));
+        final float f = ModuleESP.mc.player.getDistance(entityIn);
+        final float m = f / Float.intBitsToFloat(Float.floatToIntBits(1.0004f) ^ 0x7E800D1B) * (float)Math.pow(Double.longBitsToDouble(Double.doubleToLongBits(4.8110394395124665) ^ 0x7FE71A0E1F71E38CL), Double.longBitsToDouble(Double.doubleToLongBits(4.67944022789239) ^ 0x7FE2B7BF2DD989D5L));
+        GlStateManager.scale(m, m, m);
+        final FontRenderer fontRendererIn = ModuleESP.mc.fontRenderer;
+        GlStateManager.scale(Float.intBitsToFloat(Float.floatToIntBits(-357.211f) ^ 0x7F7E57CF), Float.intBitsToFloat(Float.floatToIntBits(-452.38806f) ^ 0x7F2EFD61), Float.intBitsToFloat(Float.floatToIntBits(392.9144f) ^ 0x7F08B9C6));
+        final String str = name + ((entityIn instanceof EntityItem) ? (" x" + ((EntityItem)entityIn).getItem().getCount()) : "");
+        final int i = fontRendererIn.getStringWidth(str) / 2;
         GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate((GlStateManager.SourceFactor)GlStateManager.SourceFactor.SRC_ALPHA, (GlStateManager.DestFactor)GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, (GlStateManager.SourceFactor)GlStateManager.SourceFactor.ONE, (GlStateManager.DestFactor)GlStateManager.DestFactor.ZERO);
-        GlStateManager.glNormal3f((float)Float.intBitsToFloat(Float.floatToIntBits(1.9863452E38f) ^ 0x7F156F9E), (float)Float.intBitsToFloat(Float.floatToIntBits(99.03271f) ^ 0x7D4610BF), (float)Float.intBitsToFloat(Float.floatToIntBits(3.0166113E38f) ^ 0x7F62F1D2));
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.glNormal3f(Float.intBitsToFloat(Float.floatToIntBits(1.9863452E38f) ^ 0x7F156F9E), Float.intBitsToFloat(Float.floatToIntBits(99.03271f) ^ 0x7D4610BF), Float.intBitsToFloat(Float.floatToIntBits(3.0166113E38f) ^ 0x7F62F1D2));
         if (Europa.getModuleManager().isModuleEnabled("Font")) {
-            Europa.FONT_MANAGER.drawString(str, -i, Float.intBitsToFloat(Float.floatToIntBits(1.7880019f) ^ 0x7EF4DD3F), Color.WHITE);
-        } else {
+            Europa.FONT_MANAGER.drawString(str, (float)(-i), Float.intBitsToFloat(Float.floatToIntBits(1.7880019f) ^ 0x7EF4DD3F), Color.WHITE);
+        }
+        else {
             GlStateManager.enableTexture2D();
             fontRendererIn.drawStringWithShadow(str, (float)(-i), Float.intBitsToFloat(Float.floatToIntBits(0.19404618f) ^ 0x7F56B40B), Color.WHITE.getRGB());
             GlStateManager.disableTexture2D();
         }
-        GlStateManager.glNormal3f((float)Float.intBitsToFloat(Float.floatToIntBits(1.4840141E38f) ^ 0x7EDF4A25), (float)Float.intBitsToFloat(Float.floatToIntBits(2.7919246E38f) ^ 0x7F520A83), (float)Float.intBitsToFloat(Float.floatToIntBits(1.5804284E38f) ^ 0x7EEDCBE3));
+        GlStateManager.glNormal3f(Float.intBitsToFloat(Float.floatToIntBits(1.4840141E38f) ^ 0x7EDF4A25), Float.intBitsToFloat(Float.floatToIntBits(2.7919246E38f) ^ 0x7F520A83), Float.intBitsToFloat(Float.floatToIntBits(1.5804284E38f) ^ 0x7EEDCBE3));
         GlStateManager.popMatrix();
     }
 
@@ -297,7 +283,7 @@ extends Module {
         public long starTime;
         public ModuleESP this$0;
 
-        public Sound(ModuleESP this$0, BlockPos pos) {
+        public Sound(BlockPos pos) {
             this.this$0 = this$0;
             this.pos = pos;
             this.starTime = (long)292408538 ^ 0x116DCCDAL;

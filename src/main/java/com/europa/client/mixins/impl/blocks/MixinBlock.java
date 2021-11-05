@@ -1,5 +1,7 @@
 package com.europa.client.mixins.impl.blocks;
 
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
 import org.spongepowered.asm.mixin.*;
 import net.minecraft.block.*;
 import net.minecraft.block.state.*;
@@ -15,7 +17,11 @@ import net.minecraftforge.common.*;
 import net.minecraftforge.fml.common.eventhandler.*;
 
 @Mixin({ Block.class })
-public class MixinBlock {
+public class MixinBlock extends Block {
+    public MixinBlock(Material blockMaterialIn, MapColor blockMapColorIn) {
+        super(blockMaterialIn, blockMapColorIn);
+    }
+
     @Inject(method = { "shouldSideBeRendered" }, at = { @At("HEAD") }, cancellable = true)
     public void shouldSideBeRendered(final IBlockState blockState, final IBlockAccess blockAccess, final BlockPos pos, final EnumFacing side, final CallbackInfoReturnable<Boolean> callback) {
         if (Europa.getModuleManager().isModuleEnabled("Wallhack")) {

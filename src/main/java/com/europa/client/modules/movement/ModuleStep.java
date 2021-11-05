@@ -9,11 +9,12 @@ import com.europa.api.manager.module.Module;
 import com.europa.api.manager.module.ModuleCategory;
 import com.europa.api.manager.value.impl.ValueBoolean;
 import com.europa.api.manager.value.impl.ValueNumber;
+import com.europa.client.minecraft.Timer;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ModuleStep
-extends Module {
+        extends Module {
     public float oldHeight = Float.intBitsToFloat(Float.floatToIntBits(-4.724937f) ^ 0x7F1732AF);
     public float timerSpeed;
     public static ValueNumber height = new ValueNumber("Height", "Height", "", Double.longBitsToDouble(Double.doubleToLongBits(0.34686506251484367) ^ 0x7FD6330984E81477L), Double.longBitsToDouble(Double.doubleToLongBits(1.2866951786535576E308) ^ 0x7FE6E7683F78156AL), Double.longBitsToDouble(Double.doubleToLongBits(0.34943626743804573) ^ 0x7FD25D29EF2BB19FL));
@@ -38,7 +39,7 @@ extends Module {
     public void onMotionUpdate() {
         if (ModuleStep.mc.player != null && timer.getValue()) {
             this.timerSpeed = (double)ModuleStep.mc.player.moveForward != Double.longBitsToDouble(Double.doubleToLongBits(1.8611519510179413E307) ^ 0x7FBA80F1678630AFL) || (double)ModuleStep.mc.player.moveStrafing != Double.longBitsToDouble(Double.doubleToLongBits(1.1401433617423325E307) ^ 0x7FB03C7651C3ADCFL) ? Math.min(this.timerSpeed + Float.intBitsToFloat(Float.floatToIntBits(1260.3894f) ^ 0x7F5917D0), Float.intBitsToFloat(Float.floatToIntBits(22.442043f) ^ 0x7E3F4583)) : Float.intBitsToFloat(Float.floatToIntBits(11.449611f) ^ 0x7EB7319B);
-            ModuleStep.mc.timer.tickLength = Float.intBitsToFloat(Float.floatToIntBits(0.017081684f) ^ 0x7EC3EEE3) / this.timerSpeed;
+            Timer.tickLength = Float.intBitsToFloat(Float.floatToIntBits(0.017081684f) ^ 0x7EC3EEE3) / this.timerSpeed;
         }
     }
 
@@ -54,12 +55,9 @@ extends Module {
     public void onDisable() {
         ModuleStep.mc.player.stepHeight = this.oldHeight;
         this.oldHeight = Float.intBitsToFloat(Float.floatToIntBits(-4.8051877f) ^ 0x7F19C419);
-        ModuleStep.mc.timer.tickLength = Float.intBitsToFloat(Float.floatToIntBits(0.061392717f) ^ 0x7F3376EE);
+        Timer.tickLength = Float.intBitsToFloat(Float.floatToIntBits(0.061392717f) ^ 0x7F3376EE);
     }
 
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
     public void onReceive(EventPacket.Receive receive) {
         if (timer.getValue() && receive.getPacket() instanceof SPacketPlayerPosLook) {

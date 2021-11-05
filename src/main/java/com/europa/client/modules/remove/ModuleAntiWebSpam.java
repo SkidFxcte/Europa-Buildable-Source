@@ -8,6 +8,8 @@ import com.europa.api.manager.module.ModuleCategory;
 import com.europa.api.manager.value.impl.ValueEnum;
 import com.europa.api.utilities.entity.InventoryUtils;
 import java.util.ArrayList;
+
+import com.europa.client.minecraft.Entity;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -33,7 +35,7 @@ extends Module {
         blocks.add(new BlockPos(ModuleAntiWebSpam.mc.player.posX - Double.longBitsToDouble(Double.doubleToLongBits(0.8348272479432102) ^ 0x7FEAB6E7A1F73984L), ModuleAntiWebSpam.mc.player.posY - Double.longBitsToDouble(Double.doubleToLongBits(0.1853614912148329) ^ 0x7FC7B9ECE35A4DC7L), ModuleAntiWebSpam.mc.player.posZ - Double.longBitsToDouble(Double.doubleToLongBits(0.9111122447841747) ^ 0x7FED27D4DDCAA963L)));
         blocks.add(new BlockPos(ModuleAntiWebSpam.mc.player.posX - Double.longBitsToDouble(Double.doubleToLongBits(0.8939487638004415) ^ 0x7FE49B3A701A5220L), ModuleAntiWebSpam.mc.player.posY - Double.longBitsToDouble(Double.doubleToLongBits(0.895885631232032) ^ 0x7FE4AB1857E321F2L), ModuleAntiWebSpam.mc.player.posZ - Double.longBitsToDouble(Double.doubleToLongBits(0.5062933376290092) ^ 0x7FE8338E15E993B5L)));
         if (mode.getValue().equals("All")) {
-            if (ModuleAntiWebSpam.mc.player.isInWeb) {
+            if (Entity.isInWeb) {
                 InventoryUtils.switchToSlot(Items.CHORUS_FRUIT);
                 KeyBinding.setKeyBindState((int)ModuleAntiWebSpam.mc.gameSettings.keyBindUseItem.getKeyCode(), (boolean)true);
                 this.ateChorus = true;

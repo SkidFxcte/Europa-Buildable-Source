@@ -7,6 +7,7 @@ import com.europa.api.manager.module.Module;
 import com.europa.api.manager.module.ModuleCategory;
 import com.europa.api.manager.value.impl.ValueBoolean;
 import com.europa.api.manager.value.impl.ValueNumber;
+import com.europa.client.minecraft.ItemRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ModuleAnimations
@@ -32,13 +33,13 @@ extends Module {
                 player.prevLimbSwingAmount = Float.intBitsToFloat(Float.floatToIntBits(4.8253957E37f) ^ 0x7E11357F);
             }
         }
-        if (changeMainhand.getValue() && ModuleAnimations.mc.entityRenderer.itemRenderer.equippedProgressMainHand != mainhand.getValue().floatValue()) {
-            ModuleAnimations.mc.entityRenderer.itemRenderer.equippedProgressMainHand = mainhand.getValue().floatValue();
-            ModuleAnimations.mc.entityRenderer.itemRenderer.itemStackMainHand = ModuleAnimations.mc.player.getHeldItemMainhand();
+        if (changeMainhand.getValue() && ItemRenderer.equippedProgressMainHand != mainhand.getValue().floatValue()) {
+            ItemRenderer.equippedProgressMainHand = mainhand.getValue().floatValue();
+            ItemRenderer.itemStackMainHand = ModuleAnimations.mc.player.getHeldItemMainhand();
         }
-        if (changeOffhand.getValue() && ModuleAnimations.mc.entityRenderer.itemRenderer.equippedProgressOffHand != offhand.getValue().floatValue()) {
-            ModuleAnimations.mc.entityRenderer.itemRenderer.equippedProgressOffHand = offhand.getValue().floatValue();
-            ModuleAnimations.mc.entityRenderer.itemRenderer.itemStackOffHand = ModuleAnimations.mc.player.getHeldItemOffhand();
+        if (changeOffhand.getValue() && ItemRenderer.equippedProgressOffHand != offhand.getValue().floatValue()) {
+            ItemRenderer.equippedProgressOffHand = offhand.getValue().floatValue();
+            ItemRenderer.itemStackOffHand = ModuleAnimations.mc.player.getHeldItemOffhand();
         }
     }
 }

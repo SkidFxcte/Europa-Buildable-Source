@@ -6,6 +6,8 @@ package com.europa.client.modules.misc;
 import com.europa.api.manager.module.Module;
 import com.europa.api.manager.module.ModuleCategory;
 import com.europa.api.manager.value.impl.ValueNumber;
+import com.europa.client.minecraft.Minecraft;
+import com.europa.client.minecraft.Timer;
 
 public class ModuleTimer
 extends Module {
@@ -17,12 +19,12 @@ extends Module {
 
     @Override
     public void onEnable() {
-        ModuleTimer.mc.timer.tickLength = Float.intBitsToFloat(Float.floatToIntBits(0.04392911f) ^ 0x7F7BEF03) / timer.getValue().floatValue();
+        Timer.tickLength = (Float.intBitsToFloat(Float.floatToIntBits(0.04392911f) ^ 0x7F7BEF03) / timer.getValue().floatValue());
     }
 
     @Override
     public void onDisable() {
-        ModuleTimer.mc.timer.tickLength = Float.intBitsToFloat(Float.floatToIntBits(0.015568974f) ^ 0x7E371503);
+        Timer.tickLength  = Float.intBitsToFloat(Float.floatToIntBits(0.015568974f) ^ 0x7E371503);
     }
 }
 

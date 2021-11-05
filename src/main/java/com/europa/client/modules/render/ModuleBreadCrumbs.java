@@ -1,64 +1,80 @@
-/*
- * Decompiled with CFR 0.151.
- */
+//
+// Decompiled by Procyon v0.5.36
+//
+
 package com.europa.client.modules.render;
 
+import com.europa.client.minecraft.RenderManager;
+import org.lwjgl.opengl.GL11;
+import com.europa.api.utilities.render.RenderUtils;
 import com.europa.api.manager.event.impl.render.EventRender3D;
-import com.europa.api.manager.module.Module;
+import java.util.Collection;
+import java.util.Iterator;
+import net.minecraft.entity.player.EntityPlayer;
 import com.europa.api.manager.module.ModuleCategory;
-import com.europa.api.manager.value.impl.ValueBoolean;
-import com.europa.api.manager.value.impl.ValueColor;
-import com.europa.api.manager.value.impl.ValueNumber;
-import java.awt.Color;
 import java.util.ArrayList;
+import java.awt.Color;
+import com.europa.api.manager.value.impl.ValueColor;
+import com.europa.api.manager.value.impl.ValueBoolean;
+import com.europa.api.manager.value.impl.ValueNumber;
+import com.europa.api.manager.module.Module;
 
-public class ModuleBreadCrumbs
-extends Module {
-    public static ValueNumber length = new ValueNumber("Length", "Length", "", 14, 5, 40);
-    public static ValueNumber width = new ValueNumber("Width", "Width", "", Float.valueOf(Float.intBitsToFloat(Float.floatToIntBits(15.599429f) ^ 0x7EB99743)), Float.valueOf(Float.intBitsToFloat(Float.floatToIntBits(2.076195f) ^ 0x7F04E061)), Float.valueOf(Float.intBitsToFloat(Float.floatToIntBits(1.3190416f) ^ 0x7F08D65B)));
-    public static ValueBoolean syncColor = new ValueBoolean("SyncColor", "SyncColor", "", true);
-    public static ValueColor daColor = new ValueColor("Color", "Color", "", new Color(255, 255, 255, 255));
+public class ModuleBreadCrumbs extends Module
+{
+    public static ValueNumber length;
+    public static ValueNumber width;
+    public static ValueBoolean syncColor;
+    public static ValueColor daColor;
     public Color color;
-    public static ArrayList<double[]> vecs = new ArrayList();
+    public static ArrayList<double[]> vecs;
 
     public ModuleBreadCrumbs() {
         super("BreadCrumbs", "Bread Crumbs", "Makes a short line following players.", ModuleCategory.RENDER);
     }
 
-    /*
-     * Exception decompiling
-     */
     @Override
     public void onUpdate() {
-        /*
-         * This method has failed to decompile.  When submitting a bug report, please provide this stack trace, and (if you hold appropriate legal rights) the relevant class file.
-         * 
-         * org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [11[TRYBLOCK]], but top level block is 24[UNCONDITIONALDOLOOP]
-         *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op04StructuredStatement.processEndingBlocks(Op04StructuredStatement.java:435)
-         *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op04StructuredStatement.buildNestedBlocks(Op04StructuredStatement.java:484)
-         *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op03SimpleStatement.createInitialStructuredBlock(Op03SimpleStatement.java:736)
-         *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysisInner(CodeAnalyser.java:845)
-         *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysisOrWrapFail(CodeAnalyser.java:278)
-         *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysis(CodeAnalyser.java:201)
-         *     at org.benf.cfr.reader.entities.attributes.AttributeCode.analyse(AttributeCode.java:94)
-         *     at org.benf.cfr.reader.entities.Method.analyse(Method.java:531)
-         *     at org.benf.cfr.reader.entities.ClassFile.analyseMid(ClassFile.java:1042)
-         *     at org.benf.cfr.reader.entities.ClassFile.analyseTop(ClassFile.java:929)
-         *     at org.benf.cfr.reader.Driver.doJarVersionTypes(Driver.java:257)
-         *     at org.benf.cfr.reader.Driver.doJar(Driver.java:139)
-         *     at org.benf.cfr.reader.CfrDriverImpl.analyse(CfrDriverImpl.java:73)
-         *     at org.benf.cfr.reader.Main.main(Main.java:49)
-         */
-        throw new IllegalStateException("Decompilation failed");
+        if (ModuleBreadCrumbs.syncColor.getValue()) {
+            this.color = Module.globalColor(255);
+        }
+        else {
+            this.color = ModuleBreadCrumbs.daColor.getValue();
+        }
+        try {
+            final double renderPosX = RenderManager.renderPosX;
+            final double renderPosY = RenderManager.renderPosY;
+            final double renderPosZ = RenderManager.renderPosZ;
+            if (this.isToggled()) {
+                final Iterator<EntityPlayer> iterator = ModuleBreadCrumbs.mc.world.playerEntities.iterator();
+                while (iterator.hasNext()) {
+                    final EntityPlayer next;
+                    if ((next = iterator.next()) instanceof EntityPlayer) {
+                        final EntityPlayer entityPlayer;
+                        final boolean b = (entityPlayer = next) == ModuleBreadCrumbs.mc.player;
+                        double n = renderPosY + Double.longBitsToDouble(Double.doubleToLongBits(0.48965838138858014) ^ 0x7FDF56901B91AE07L);
+                        if (ModuleBreadCrumbs.mc.player.isElytraFlying()) {
+                            n -= Double.longBitsToDouble(Double.doubleToLongBits(29.56900080933637) ^ 0x7FC591AA097B7F4BL);
+                        }
+                        if (!b) {
+                            continue;
+                        }
+                        ModuleBreadCrumbs.vecs.add(new double[] { renderPosX, n - entityPlayer.height, renderPosZ });
+                    }
+                }
+            }
+        }
+        catch (Exception ex) {}
+        if (ModuleBreadCrumbs.vecs.size() > ModuleBreadCrumbs.length.getValue().intValue()) {
+            ModuleBreadCrumbs.vecs.remove(0);
+        }
     }
 
     @Override
     public void onDisable() {
-        vecs.removeAll(vecs);
+        ModuleBreadCrumbs.vecs.removeAll(ModuleBreadCrumbs.vecs);
     }
 
-    public static double M(double d) {
-        double n;
+    public static double M(final double n) {
         if (n == Double.longBitsToDouble(Double.doubleToLongBits(1.7931000183463725E308) ^ 0x7FEFEB11C3AAD037L)) {
             return n;
         }
@@ -68,31 +84,52 @@ extends Module {
         return n;
     }
 
-    /*
-     * Exception decompiling
-     */
     @Override
-    public void onRender3D(EventRender3D var1_1) {
-        /*
-         * This method has failed to decompile.  When submitting a bug report, please provide this stack trace, and (if you hold appropriate legal rights) the relevant class file.
-         * 
-         * org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [40[TRYBLOCK]], but top level block is 69[UNCONDITIONALDOLOOP]
-         *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op04StructuredStatement.processEndingBlocks(Op04StructuredStatement.java:435)
-         *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op04StructuredStatement.buildNestedBlocks(Op04StructuredStatement.java:484)
-         *     at org.benf.cfr.reader.bytecode.analysis.opgraph.Op03SimpleStatement.createInitialStructuredBlock(Op03SimpleStatement.java:736)
-         *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysisInner(CodeAnalyser.java:845)
-         *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysisOrWrapFail(CodeAnalyser.java:278)
-         *     at org.benf.cfr.reader.bytecode.CodeAnalyser.getAnalysis(CodeAnalyser.java:201)
-         *     at org.benf.cfr.reader.entities.attributes.AttributeCode.analyse(AttributeCode.java:94)
-         *     at org.benf.cfr.reader.entities.Method.analyse(Method.java:531)
-         *     at org.benf.cfr.reader.entities.ClassFile.analyseMid(ClassFile.java:1042)
-         *     at org.benf.cfr.reader.entities.ClassFile.analyseTop(ClassFile.java:929)
-         *     at org.benf.cfr.reader.Driver.doJarVersionTypes(Driver.java:257)
-         *     at org.benf.cfr.reader.Driver.doJar(Driver.java:139)
-         *     at org.benf.cfr.reader.CfrDriverImpl.analyse(CfrDriverImpl.java:73)
-         *     at org.benf.cfr.reader.Main.main(Main.java:49)
-         */
-        throw new IllegalStateException("Decompilation failed");
+    public void onRender3D(final EventRender3D event) {
+        try {
+            final double renderPosX = RenderManager.renderPosX;
+            final double renderPosY = RenderManager.renderPosY;
+            final double renderPosZ = RenderManager.renderPosZ;
+            final float n = this.color.getRed() / Float.intBitsToFloat(Float.floatToIntBits(0.49987957f) ^ 0x7D80F037);
+            final float n2 = this.color.getGreen() / Float.intBitsToFloat(Float.floatToIntBits(0.4340212f) ^ 0x7DA13807);
+            final float n3 = this.color.getBlue() / Float.intBitsToFloat(Float.floatToIntBits(0.0131841665f) ^ 0x7F270267);
+            if (this.isToggled()) {
+                RenderUtils.prepareGL();
+                GL11.glPushMatrix();
+                GL11.glEnable(2848);
+                GL11.glLineWidth(ModuleBreadCrumbs.width.getValue().floatValue());
+                GL11.glBlendFunc(770, 771);
+                GL11.glLineWidth(ModuleBreadCrumbs.width.getValue().floatValue());
+                GL11.glDepthMask(false);
+                GL11.glBegin(3);
+                Iterator<double[]> iterator3;
+                final Iterator<double[]> iterator2 = iterator3 = ModuleBreadCrumbs.vecs.iterator();
+                while (iterator3.hasNext()) {
+                    final double[] array;
+                    final double m;
+                    if ((m = M(Math.hypot((array = iterator2.next())[0] - ModuleBreadCrumbs.mc.player.posX, array[1] - ModuleBreadCrumbs.mc.player.posY))) > ModuleBreadCrumbs.length.getValue().intValue()) {
+                        iterator3 = iterator2;
+                    }
+                    else {
+                        GL11.glColor4f(n, n2, n3, Float.intBitsToFloat(Float.floatToIntBits(14.099797f) ^ 0x7EE198C5) - (float)(m / ModuleBreadCrumbs.length.getValue().intValue()));
+                        iterator3 = iterator2;
+                        GL11.glVertex3d(array[0] - renderPosX, array[1] - renderPosY, array[2] - renderPosZ);
+                    }
+                }
+                GL11.glEnd();
+                GL11.glDepthMask(true);
+                GL11.glPopMatrix();
+                RenderUtils.releaseGL();
+            }
+        }
+        catch (Exception ex) {}
+    }
+
+    static {
+        ModuleBreadCrumbs.length = new ValueNumber("Length", "Length", "", 14, 5, 40);
+        ModuleBreadCrumbs.width = new ValueNumber("Width", "Width", "", Float.intBitsToFloat(Float.floatToIntBits(15.599429f) ^ 0x7EB99743), Float.intBitsToFloat(Float.floatToIntBits(2.076195f) ^ 0x7F04E061), Float.intBitsToFloat(Float.floatToIntBits(1.3190416f) ^ 0x7F08D65B));
+        ModuleBreadCrumbs.syncColor = new ValueBoolean("SyncColor", "SyncColor", "", true);
+        ModuleBreadCrumbs.daColor = new ValueColor("Color", "Color", "", new Color(255, 255, 255, 255));
+        ModuleBreadCrumbs.vecs = new ArrayList<double[]>();
     }
 }
-

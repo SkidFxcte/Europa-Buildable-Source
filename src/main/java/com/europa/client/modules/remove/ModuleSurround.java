@@ -115,8 +115,8 @@ extends Module {
                 return;
             }
             CPacketUseEntity useEntity = new CPacketUseEntity();
-            useEntity.entityId = ((SPacketSpawnObject)receive.getPacket()).getEntityID();
-            useEntity.action = CPacketUseEntity.Action.ATTACK;
+            com.europa.client.minecraft.Entity.entityId = ((SPacketSpawnObject)receive.getPacket()).getEntityID();
+            com.europa.client.minecraft.CPacketUseEntity.action = CPacketUseEntity.Action.ATTACK;
             ModuleSurround.mc.player.connection.sendPacket((Packet)useEntity);
         }
     }

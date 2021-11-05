@@ -10,6 +10,7 @@ import com.europa.api.manager.module.ModuleCategory;
 import com.europa.api.manager.value.impl.ValueBoolean;
 import com.europa.api.manager.value.impl.ValueColor;
 import com.europa.api.manager.value.impl.ValueNumber;
+import com.europa.client.minecraft.RenderManager;
 import com.mojang.authlib.GameProfile;
 import java.awt.Color;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
@@ -45,34 +46,34 @@ extends Module {
         super("PopChams", "Pop Chams", "Renders a cham which fades out when a player pops.", ModuleCategory.RENDER);
     }
 
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
-    public void onReceive(EventPacket.Receive receive) {
-        SPacketEntityStatus packet;
-        void event;
-        if (ModulePopChams.mc.player == null || ModulePopChams.mc.world == null) {
-            return;
-        }
-        if (event.getPacket() instanceof SPacketEntityStatus && (packet = (SPacketEntityStatus)event.getPacket()).getEntity((World)ModulePopChams.mc.world) instanceof EntityPlayer) {
-            entity = (EntityPlayer)packet.getEntity((World)ModulePopChams.mc.world);
-            if (packet.getOpCode() == 35 && entity != null) {
-                if (entity != ModulePopChams.mc.player) {
-                    GameProfile profile = new GameProfile(ModulePopChams.mc.player.getUniqueID(), "");
-                    player = new EntityOtherPlayerMP((World)ModulePopChams.mc.world, profile);
-                    player.copyLocationAndAnglesFrom(packet.getEntity((World)ModulePopChams.mc.world));
-                    ModulePopChams.player.rotationYaw = ModulePopChams.entity.rotationYaw;
-                    ModulePopChams.player.rotationYawHead = ModulePopChams.entity.rotationYawHead;
-                    ModulePopChams.player.rotationPitch = ModulePopChams.entity.rotationPitch;
-                    ModulePopChams.player.prevRotationPitch = ModulePopChams.entity.prevRotationPitch;
-                    ModulePopChams.player.prevRotationYaw = ModulePopChams.entity.prevRotationYaw;
-                    ModulePopChams.player.renderYawOffset = ModulePopChams.entity.renderYawOffset;
-                    this.startTime = System.currentTimeMillis();
+    public void onReceive(final EventPacket.Receive event) {
+        if (ModulePopChams.mc.player != null && ModulePopChams.mc.world != null) {
+            if (event.getPacket() instanceof SPacketEntityStatus) {
+                final SPacketEntityStatus packet = (SPacketEntityStatus)event.getPacket();
+                if (packet.getEntity((World)ModulePopChams.mc.world) instanceof EntityPlayer) {
+                    ModulePopChams.entity = (EntityPlayer)packet.getEntity((World)ModulePopChams.mc.world);
+                    if (packet.getOpCode() == 35) {
+                        if (ModulePopChams.entity != null) {
+                            if (ModulePopChams.entity != ModulePopChams.mc.player) {
+                                final GameProfile profile = new GameProfile(ModulePopChams.mc.player.getUniqueID(), "");
+                                (ModulePopChams.player = new EntityOtherPlayerMP((World)ModulePopChams.mc.world, profile)).copyLocationAndAnglesFrom(packet.getEntity((World)ModulePopChams.mc.world));
+                                ModulePopChams.player.rotationYaw = ModulePopChams.entity.rotationYaw;
+                                ModulePopChams.player.rotationYawHead = ModulePopChams.entity.rotationYawHead;
+                                ModulePopChams.player.rotationPitch = ModulePopChams.entity.rotationPitch;
+                                ModulePopChams.player.prevRotationPitch = ModulePopChams.entity.prevRotationPitch;
+                                ModulePopChams.player.prevRotationYaw = ModulePopChams.entity.prevRotationYaw;
+                                ModulePopChams.player.renderYawOffset = ModulePopChams.entity.renderYawOffset;
+                                this.startTime = System.currentTimeMillis();
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+
+
 
     @Override
     public void onRender3D(EventRender3D eventRender3D) {
@@ -100,7 +101,7 @@ extends Module {
                 if (angel.getValue()) {
                     GlStateManager.translate((float)Float.intBitsToFloat(Float.floatToIntBits(1.240196E38f) ^ 0x7EBA9A9D), (float)((float)duration / (float)(angelSpeed.getValue().intValue() * 10)), (float)Float.intBitsToFloat(Float.floatToIntBits(3.0414126E38f) ^ 0x7F64CF7A));
                 }
-                ModulePopChams.mc.renderManager.renderEntityStatic((Entity)player, Float.intBitsToFloat(Float.floatToIntBits(6.159893f) ^ 0x7F451DD8), false);
+                RenderManager.renderEntityStatic((Entity)player, Float.intBitsToFloat(Float.floatToIntBits(6.159893f) ^ 0x7F451DD8), false);
                 GlStateManager.translate((float)Float.intBitsToFloat(Float.floatToIntBits(3.0715237E38f) ^ 0x7F671365), (float)Float.intBitsToFloat(Float.floatToIntBits(1.9152719E37f) ^ 0x7D668ADF), (float)Float.intBitsToFloat(Float.floatToIntBits(1.9703683E38f) ^ 0x7F143BEA));
                 GL11.glPopMatrix();
             }

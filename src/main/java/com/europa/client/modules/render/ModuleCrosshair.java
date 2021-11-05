@@ -72,10 +72,10 @@ extends Module {
         GL11.glEnable((int)2929);
     }
 
+
     public boolean moving() {
-        return (ModuleCrosshair.mc.player.isSneaking() || ModuleCrosshair.mc.player.moveStrafing != Float.intBitsToFloat(Float.floatToIntBits(3.3700814E38f) ^ 0x7F7D8968) || ModuleCrosshair.mc.player.moveForward != Float.intBitsToFloat(Float.floatToIntBits(2.1583157E38f) ^ 0x7F225FA6) || !ModuleCrosshair.mc.player.onGround) && dynamic.getValue();
-        {
-        }
+        return (ModuleCrosshair.mc.player.isSneaking() || ModuleCrosshair.mc.player.moveStrafing != Float.intBitsToFloat(Float.floatToIntBits(3.3700814E38f) ^ 0x7F7D8968) || ModuleCrosshair.mc.player.moveForward != Float.intBitsToFloat(Float.floatToIntBits(2.1583157E38f) ^ 0x7F225FA6) || !ModuleCrosshair.mc.player.onGround) && ModuleCrosshair.dynamic.getValue();
     }
+
 }
 

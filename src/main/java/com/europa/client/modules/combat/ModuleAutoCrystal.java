@@ -332,14 +332,14 @@ public class ModuleAutoCrystal extends Module
                         }
                         ModuleAutoCrystal.isSequential = true;
                         final CPacketUseEntity crystalPacket = new CPacketUseEntity();
-                        crystalPacket.entityId = packet2.getEntityID();
-                        crystalPacket.action = CPacketUseEntity.Action.ATTACK;
+                        com.europa.client.minecraft.Entity.entityId = packet2.getEntityID();
+                        com.europa.client.minecraft.CPacketUseEntity.action = CPacketUseEntity.Action.ATTACK;
                         ModuleAutoCrystal.mc.player.connection.sendPacket((Packet)crystalPacket);
                         if (ModuleAutoCrystal.mc.playerController.getCurrentGameType() != GameType.SPECTATOR) {
                             ModuleAutoCrystal.mc.player.resetCooldown();
                         }
                         this.swingItem();
-                        this.blacklist.add(crystalPacket.entityId);
+                        this.blacklist.add(com.europa.client.minecraft.Entity.entityId);
                         ModuleAutoCrystal.isSequential = false;
                     }
                 }

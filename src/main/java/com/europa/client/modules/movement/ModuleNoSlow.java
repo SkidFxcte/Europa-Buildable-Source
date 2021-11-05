@@ -56,9 +56,6 @@ extends Module {
         }
     }
 
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
     public void onKeyEvent(EventKey eventKey) {
         if (guiMove.getValue() && !(ModuleNoSlow.mc.currentScreen instanceof GuiChat)) {

@@ -61,8 +61,8 @@ public class HoleUtils implements IMinecraft
 
     public static boolean isDoubleHole(final BlockPos pos) {
         for (final EnumFacing f : EnumFacing.HORIZONTALS) {
-            final int offX = f.getFrontOffsetX();
-            final int offZ = f.getFrontOffsetZ();
+            final int offX = f.getXOffset();
+            final int offZ = f.getZOffset();
             Label_1038: {
                 if (HoleUtils.mc.world.getBlockState(pos.add(offX, 0, offZ)).getBlock() != Blocks.OBSIDIAN) {
                     if (HoleUtils.mc.world.getBlockState(pos.add(offX, 0, offZ)).getBlock() != Blocks.BEDROCK) {

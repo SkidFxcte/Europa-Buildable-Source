@@ -7,6 +7,7 @@ import com.europa.api.manager.module.Module;
 import com.europa.api.manager.module.ModuleCategory;
 import com.europa.api.manager.value.impl.ValueBoolean;
 import com.europa.api.manager.value.impl.ValueEnum;
+import com.europa.client.minecraft.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayer;
 
@@ -21,7 +22,7 @@ extends Module {
 
     @Override
     public void onMotionUpdate() {
-        if (ModuleAntiWeb.mc.player.isInWeb) {
+        if (Entity.isInWeb) {
             switch (mode.getValue().ordinal()) {
                 case 1: {
                     if (packetMotionY.getValue()) {
@@ -34,7 +35,7 @@ extends Module {
                     break;
                 }
                 case 2: {
-                    ModuleAntiWeb.mc.player.isInWeb = false;
+                    Entity.isInWeb = false;
                 }
             }
         }

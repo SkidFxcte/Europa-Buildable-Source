@@ -23,27 +23,18 @@ extends Module {
     public ModuleNoRender() {
         super("NoRender", "No Render", "Prevents certain things from rendering.", ModuleCategory.RENDER);
     }
-
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
-    public void onRenderBlock(RenderBlockOverlayEvent renderBlockOverlayEvent) {
-        block0: {
-            void event;
-            if (!fire.getValue() || event.getOverlayType() != RenderBlockOverlayEvent.OverlayType.FIRE) break block0;
-            event.setCanceled(true);
+    public void onRenderBlock(final RenderBlockOverlayEvent event) {
+        if (ModuleNoRender.fire.getValue()) {
+            if (event.getOverlayType() == RenderBlockOverlayEvent.OverlayType.FIRE) {
+                event.setCanceled(true);
+            }
         }
     }
 
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
-    public void onBossBar(EventBossBar eventBossBar) {
-        block0: {
-            void event;
-            if (!bossBar.getValue()) break block0;
+    public void onBossBar(final EventBossBar event) {
+        if (ModuleNoRender.bossBar.getValue()) {
             event.setCancelled(true);
         }
     }

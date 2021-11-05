@@ -37,47 +37,25 @@ extends Module {
         }
         lastConnectedServer = data;
     }
-
-    /*
-     * WARNING - void declaration
-     */
     @SubscribeEvent
-    public <v0> void onGuiOpened(GuiOpenEvent guiOpenEvent) {
-        GuiDisconnectedOverride guiDisconnectedOverride = null;
-        block23: {
-            block22: {
-                try {
-                    if (hasAutoLogged) {
-                        return;
-                    }
-                }
-                catch (Exception exception) {
-                    return;
-                }
-                GuiScreen guiScreen = guiOpenEvent.getGui();
-                if (guiScreen instanceof GuiDisconnected) break block22;
+    public void onGuiOpened(final GuiOpenEvent event) {
+        try {
+            if (ModuleAutoReconnect.hasAutoLogged) {
                 return;
             }
-            GuiScreen guiScreen = guiOpenEvent.getGui();
-            if (!(guiScreen instanceof GuiDisconnectedOverride)) break block23;
-            return;
+            if (!(event.getGui() instanceof GuiDisconnected)) {
+                return;
+            }
+            if (event.getGui() instanceof GuiDisconnectedOverride) {
+                return;
+            }
+            this.updateLastConnectedServer();
+            final GuiDisconnected disconnected = (GuiDisconnected)event.getGui();
+            event.setGui((GuiScreen)new GuiDisconnectedOverride(com.europa.client.minecraft.GuiDisconnected.parentScreen, "connect.failed", com.europa.client.minecraft.GuiDisconnected.message, com.europa.client.minecraft.GuiDisconnected.reason, ModuleAutoReconnect.delay.getValue().doubleValue()));
         }
-        ModuleAutoReconnect moduleAutoReconnect = this;
-        moduleAutoReconnect.updateLastConnectedServer();
-
-        GuiScreen guiScreen = guiOpenEvent.getGui();
-        GuiDisconnected disconnected = (GuiDisconnected)guiScreen;
-
-        GuiScreen guiScreen2 = disconnected.parentScreen;
-        String string = "connect.failed";
-        ITextComponent iTextComponent = disconnected.message;
-        String string2 = disconnected.reason;
-        ValueNumber valueNumber = delay;
-        Number number = valueNumber.getValue();
-        double d = number.doubleValue();
-        guiDisconnectedOverride2(guiScreen2, string, iTextComponent, string2, d);
-        guiOpenEvent.setGui((GuiScreen)null);
+        catch (Exception ex) {}
     }
+
 
     private void guiDisconnectedOverride2(GuiScreen guiScreen2, String string, ITextComponent iTextComponent, String string2, double d) {
     }

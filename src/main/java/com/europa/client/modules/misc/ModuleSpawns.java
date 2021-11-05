@@ -57,36 +57,34 @@ extends Module {
         }
     }
 
-    /*
-     * WARNING - void declaration
-     */
-    public static void drawCircle(Entity entity, float f, double d, float f2, float f3) {
-        Color color = new Color(color8.getRed(), color8.getGreen(), color8.getBlue());
+    public static void drawCircle(final Entity entity, final float partialTicks, final double rad, final float plusY, final float alpha) {
+        final Color color = new Color(ModuleSpawns.color8.getRed(), ModuleSpawns.color8.getGreen(), ModuleSpawns.color8.getBlue());
         GL11.glPushMatrix();
-        GL11.glDisable((int)3553);
-        ModuleSpawns.startSmooth();
-        GL11.glDisable((int)2929);
-        GL11.glDepthMask((boolean)false);
-        GL11.glLineWidth((float)Float.intBitsToFloat(Float.floatToIntBits(0.8191538f) ^ 0x7F11B410));
-        GL11.glBegin((int)3);
-        double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double)partialTicks - ModuleSpawns.mc.getRenderManager().viewerPosX;
-        double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)partialTicks - ModuleSpawns.mc.getRenderManager().viewerPosY;
-        double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)partialTicks - ModuleSpawns.mc.getRenderManager().viewerPosZ;
-        float r = Float.intBitsToFloat(Float.floatToIntBits(3180.4917f) ^ 0x7EC6475F) * (float)color.getRed();
-        float g = Float.intBitsToFloat(Float.floatToIntBits(4554.3037f) ^ 0x7E0ED2EF) * (float)color.getGreen();
-        float b = Float.intBitsToFloat(Float.floatToIntBits(29994.996f) ^ 0x7D6AD57F) * (float)color.getBlue();
-        double pix2 = Double.longBitsToDouble(Double.doubleToLongBits(0.12418750450734782) ^ 0x7FA6EB3BC22A7D2FL);
+        GL11.glDisable(3553);
+        startSmooth();
+        GL11.glDisable(2929);
+        GL11.glDepthMask(false);
+        GL11.glLineWidth(Float.intBitsToFloat(Float.floatToIntBits(0.8191538f) ^ 0x7F11B410));
+        GL11.glBegin(3);
+        final double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * partialTicks - ModuleSpawns.mc.getRenderManager().viewerPosX;
+        final double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks - ModuleSpawns.mc.getRenderManager().viewerPosY;
+        final double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks - ModuleSpawns.mc.getRenderManager().viewerPosZ;
+        final float r = Float.intBitsToFloat(Float.floatToIntBits(3180.4917f) ^ 0x7EC6475F) * color.getRed();
+        final float g = Float.intBitsToFloat(Float.floatToIntBits(4554.3037f) ^ 0x7E0ED2EF) * color.getGreen();
+        final float b = Float.intBitsToFloat(Float.floatToIntBits(29994.996f) ^ 0x7D6AD57F) * color.getBlue();
+        final double pix2 = Double.longBitsToDouble(Double.doubleToLongBits(0.12418750450734782) ^ 0x7FA6EB3BC22A7D2FL);
         for (int i = 0; i <= 90; ++i) {
-            GL11.glColor4f((float)r, (float)g, (float)b, (float)alpha);
-            GL11.glVertex3d((double)(x + rad * Math.cos((double)i * Double.longBitsToDouble(Double.doubleToLongBits(0.038923223119235344) ^ 0x7FBACC45F0F011C7L) / Double.longBitsToDouble(Double.doubleToLongBits(0.010043755046771538) ^ 0x7FC211D1FBA3AC6BL))), (double)(y + (double)(plusY / Float.intBitsToFloat(Float.floatToIntBits(0.13022153f) ^ 0x7F2558CB))), (double)(z + rad * Math.sin((double)i * Double.longBitsToDouble(Double.doubleToLongBits(0.012655047216797511) ^ 0x7F90CB18FB234FBFL) / Double.longBitsToDouble(Double.doubleToLongBits(0.00992417958121009) ^ 0x7FC2D320D5ED6BD3L))));
+            GL11.glColor4f(r, g, b, alpha);
+            GL11.glVertex3d(x + rad * Math.cos(i * Double.longBitsToDouble(Double.doubleToLongBits(0.038923223119235344) ^ 0x7FBACC45F0F011C7L) / Double.longBitsToDouble(Double.doubleToLongBits(0.010043755046771538) ^ 0x7FC211D1FBA3AC6BL)), y + plusY / Float.intBitsToFloat(Float.floatToIntBits(0.13022153f) ^ 0x7F2558CB), z + rad * Math.sin(i * Double.longBitsToDouble(Double.doubleToLongBits(0.012655047216797511) ^ 0x7F90CB18FB234FBFL) / Double.longBitsToDouble(Double.doubleToLongBits(0.00992417958121009) ^ 0x7FC2D320D5ED6BD3L)));
         }
         GL11.glEnd();
-        GL11.glDepthMask((boolean)true);
-        GL11.glEnable((int)2929);
-        ModuleSpawns.endSmooth();
-        GL11.glEnable((int)3553);
+        GL11.glDepthMask(true);
+        GL11.glEnable(2929);
+        endSmooth();
+        GL11.glEnable(3553);
         GL11.glPopMatrix();
     }
+
 
     public static void startSmooth() {
         GL11.glEnable((int)2848);
