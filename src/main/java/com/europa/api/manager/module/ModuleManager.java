@@ -102,6 +102,8 @@ import com.europa.client.modules.combat.ModuleSurroundBreaker;
 import com.europa.client.modules.render.ModuleKillEffects;
 import net.minecraftforge.common.MinecraftForge;
 import java.util.ArrayList;
+import java.util.function.Predicate;
+
 import net.minecraft.client.Minecraft;
 
 public class ModuleManager
@@ -110,7 +112,7 @@ public class ModuleManager
     public ArrayList<Module> modules;
 
     public ModuleManager() {
-        MinecraftForge.EVENT_BUS.register((Object)this);
+        MinecraftForge.EVENT_BUS.register((ModuleManager)this);
         this.modules = new ArrayList<Module>();
         this.addModule(new ModuleKillEffects());
         this.addModule(new ModuleSurroundBreaker());
@@ -228,7 +230,7 @@ public class ModuleManager
     }
 
     public ArrayList<Module> getModules(final ModuleCategory category) {
-        return (ArrayList<Module>) this.modules.stream().filter(ModuleManager::lambda$getModules$0);
+        return (ArrayList<Module>) this.modules;
     }
 
     private static boolean lambda$getModules$0(Module module) {
@@ -350,6 +352,7 @@ public class ModuleManager
     public static boolean lambda$getModules$0(final ModuleCategory category, final Module m) {
         return m.getCategory().equals(category);
     }
+
 
     static {
         ModuleManager.mc = Minecraft.getMinecraft();

@@ -4,17 +4,17 @@
 
 package com.europa.client.gui.click.components;
 
+import com.europa.api.manager.module.ModuleCategory;
 import com.europa.client.gui.click.components.impl.PreviewComponent;
 import com.europa.client.gui.click.components.impl.ColorComponent;
 import com.europa.client.gui.click.ClickGuiScreen;
 import net.minecraft.client.gui.Gui;
 import java.awt.Color;
 import com.europa.api.manager.element.Element;
-import java.util.Iterator;
 import com.europa.client.gui.click.components.impl.ModuleComponent;
 import com.europa.api.manager.module.Module;
 import com.europa.Europa;
-import com.europa.api.manager.module.ModuleCategory;
+
 import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
 
